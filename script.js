@@ -1,0 +1,1 @@
+const nav=document.getElementById('nav');const navToggle=document.getElementById('navToggle');navToggle?.addEventListener('click',()=>{nav.classList.toggle('open')});
