@@ -173,3 +173,228 @@
   font-size: .9rem;
   margin-top: .15rem;
 }
+
+/* === Motion & Interactivity Enhancements === */
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Active nav link highlight */
+.nav a.active {
+  color: var(--ink);
+  position: relative;
+}
+
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2rem;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--accent));
+}
+
+/* Card hover “lift” for people & projects */
+.person,
+.project {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.person:hover,
+.project:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 246, 214, 0.6);
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.9);
+}
+
+/* Slightly more lively buttons */
+.btn {
+  transform: translateY(0);
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Debris orbit micro-animation */
+.debris-visual {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+
+
+
+
+/* Individual debris fragments */
+.debris-particle {
+  --radius: 68px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(124, 246, 214, 0.8);
+  opacity: 0.7;
+  transform-origin: center center;
+  animation: debris-orbit-spin 22s linear infinite;
+}
+
+.debris-particle.d1 { --radius: 62px; animation-duration: 24s; animation-delay: -4s; }
+.debris-particle.d2 { --radius: 74px; animation-duration: 28s; animation-delay: -8s; }
+.debris-particle.d3 { --radius: 86px; animation-duration: 32s; animation-delay: -12s; }
+.debris-particle.d4 { --radius: 98px; animation-duration: 26s; animation-delay: -16s; }
+.debris-particle.d5 { --radius: 110px; animation-duration: 34s; animation-delay: -20s; }
+.debris-particle.d6 { --radius: 122px; animation-duration: 30s; animation-delay: -10s; opacity: 0.5; }
+.debris-particle.d7 { --radius: 134px; animation-duration: 38s; animation-delay: -18s; opacity: 0.5; }
+.debris-particle.d8 { --radius: 146px; animation-duration: 42s; animation-delay: -26s; opacity: 0.4; }
+
+@keyframes debris-orbit-spin {
+  from {
+    transform: rotate(0deg) translateX(var(--radius));
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--radius));
+  }
+}
+
+/* Debris orbit micro-animation (dense, ~1000 fragments) */
+.debris-visual {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+
+
+/* Individual debris fragments (created in JS) */
+.debris-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(124, 246, 214, 0.8);
+  transform-origin: center center;
+  animation-name: debris-orbit-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes debris-orbit-spin {
+  from {
+    transform: rotate(0deg) translateX(var(--radius));
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--radius));
+  }
+}
+
+/* Honour reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .debris-particle {
+    animation: none !important;
+  }
+}
+
+/* Updated debris visual: Earth-like blue orb, no outer orbit ring */
+.debris-visual {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.debris-orbit {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+/* Earth disc */
+.debris-orbit::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 30% 30%, #ffffff, rgba(255,255,255,0.2) 18%, transparent 26%),
+    radial-gradient(circle at 50% 60%, #1b9cff, #0057b7 55%, #002146 90%);
+  box-shadow:
+    0 0 18px rgba(76, 195, 255, 0.7),
+    0 0 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Simple "continent" hint */
+.debris-orbit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 36px;
+  transform: translate(-40%, -70%) rotate(-18deg);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, #4caf50 0%, #2e7d32 55%, transparent 70%);
+  opacity: 0.85;
+  filter: blur(0.6px);
+  mix-blend-mode: screen;
+}
+
+/* Side-by-side debris videos */
+.debris-video-wrap {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.debris-video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.debris-video {
+  max-width: 460px;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 0 18px rgba(76, 195, 255, 0.7),
+    0 0 40px rgba(0, 0, 0, 0.9);
+}
