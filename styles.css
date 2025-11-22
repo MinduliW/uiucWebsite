@@ -17,11 +17,19 @@
 .brand-text{letter-spacing:.3px;color:var(--ink)}
 .nav{display:flex;gap:1rem}.nav a{color:var(--muted);text-decoration:none;font-weight:600}.nav a:hover{color:var(--ink)}
 .nav-toggle{display:none;background:none;border:0;font-size:1.5rem;color:var(--ink)}
-.hero{padding-top:6rem}
+.hero{
+  padding-top:6rem;
+  background-image:
+    linear-gradient(180deg, rgba(11,15,25,0.7), rgba(11,15,25,0.8)),
+    url('https://illinois.edu/wp-content/themes/illinois/assets/campus.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center}
 .hero-copy h1{font-size: clamp(2rem, 2.6vw, 3.4rem);margin:0 0 .5rem;font-weight:800}
 .lead{font-size:1.125rem;color:var(--muted);max-width:52ch}
-.hero-art img{width:100%;height:auto;border-radius:1rem;border:1px solid rgba(255,255,255,0.08)}
+.hero-art img{width:100%;height:auto;border-radius:0rem;border:0px solid rgba(255,255,255,0.08)}
 .person{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:start;background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1rem}
 .person .avatar{width:120px;height:120px;border-radius:.75rem;object-fit:cover}
 .person .muted{color:var(--muted)}
