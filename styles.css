@@ -42,6 +42,29 @@
   gap:.6rem;
 }
 
+/* Hero rotating tagline */
+.hero-tagline {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  margin-bottom: 0.85rem;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+
+.space-word {
+  display: inline-block;
+  min-width: 3.2ch; /* keeps layout from shifting when words change */
+  text-transform: lowercase;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.space-word.is-changing {
+  opacity: 0;
+  transform: translateY(0.35em);
+}
+
+
 .icon-btn{
   display:inline-grid;
   place-items:center;

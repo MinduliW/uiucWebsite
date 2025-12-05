@@ -1,4 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- "Space for ___" rotating word animation ---
+  const spaceWordEl = document.getElementById('spaceWord');
+  if (spaceWordEl) {
+    const words = ['good', 'servicing', 'sustainability','safety', 'us'];
+
+    let idx = 0;
+
+    const cycleWord = () => {
+      const nextIdx = (idx + 1) % words.length;
+      spaceWordEl.classList.add('is-changing');
+      // Wait for fade-out transition before swapping text
+      setTimeout(() => {
+        spaceWordEl.textContent = words[nextIdx];
+        spaceWordEl.classList.remove('is-changing');
+        idx = nextIdx;
+      }, 250);
+    };
+
+    // Start cycling every 2 seconds
+    setInterval(cycleWord, 2000);
+  }
+
+
   // --- Mobile nav toggle ---
   const nav = document.getElementById('nav');
   const navToggle = document.getElementById('navToggle');
