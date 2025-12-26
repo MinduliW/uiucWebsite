@@ -109,52 +109,104 @@
 
 
 
-  <section id="projects" class="section alt reveal">
-    <div class="container">
-      <div class="section-head">
-        <h2>Research Projects</h2>
-      </div>
-
-      <div class="project-grid">
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_86baebc18930496e91aea1d42c48b937~mv2.png" alt="Multi-Active Debris Removal Tour Design"/>
-          <h4>Multi-Active Debris Removal Tour Design</h4>
-          <p>Working with Astroscale, we developed and studied the feasiblity of a two-spacecraft system for removing multiple tonne class orbital debris per mission.</p>
-        </article>
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_43a443269b344215825335c454534145~mv2.png" alt="Preliminary Mission Design Tool (PMDT)"/>
-          <h4>Preliminary Mission Design Tool (PMDT)</h4>
-          <p>PMDT generates multi-target, fuel- and time-optimal tours for active debris removal (ADR) missions using low-thrust propulsion. It accounts for various mission factors, such as J2 perturbations, drag, eclipses, and duty cycles. The tool can rapidly compute reference trajectories, providing solutions for multi-target low-thrust tours within seconds. It uses J2 for making RAAN changes, reducing fuel consumption.</p>
-        </article>
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_ea661ad6ef2e48a899dc559ed4fd05d8~mv2.png" alt="Multi-Objective Trajectory Optimization"/>
-          <h4>Multi-Objective Trajectory Optimization</h4>
-          <p>We participate in Global Trajectory Optimization Competitions (GTOCs) where we develop indirect and convex-based tools for complex trajectory optimization problems.</p>
-        </article>
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_d193bae78d71458a8de4e62503db951c~mv2.png" alt="CORTEX: Convex Optimization for Rendezvous Trajectory Optimization"/>
-          <h4>CORTEX: Convex Optimization for Rendezvous Trajectory Optimization</h4>
-          <p>CORTEX is a sunlight aware, robust convex-tracking scheme for final approach in RPO missions</p>
-        </article>
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_46374a3ce4424907b8e0080ece132aff~mv2.jpg" alt="Model Predictive Control"/>
-          <h4>Model Predictive Control</h4>
-          <p>We developed a convex-based MPC for low thrust transfer trajectory guidance</p>
-        </article>
-        <article class="project">
-          <img src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/creative-assets/s-migr/ul/g/8f/5e/reinforcement-learning-figure-1.png" alt="Reinforcement Learning"/>
-          <h4>Reinforcement Learning</h4>
-          <p>We developed a robust guidance scheme for far-range rendezvous using reinforcement learning with safety and observability considerations and are looking into other RL applications in space.</p>
-        </article>
-        <article class="project">
-          <img src="https://static.wixstatic.com/media/17cfa5_7096da0c1bd647e59cfadf856b965a12~mv2.jpg" alt="GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning"/>
-          <h4>GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning</h4>
-          <p>We developed the GRASP framework to handle end-to-end transfer and guidance of spacecraft servicing missions.</p>
-        </article>
-      </div>
-
+ <section id="projects" class="section alt reveal">
+  <div class="container">
+    <div class="section-head">
+      <h2>Research Projects</h2>
     </div>
-  </section>
+
+      <div class="projects-subsection" id="phd-work">
+           <div class="subsection-head">
+        <h3>PhD Work</h3>
+      </div> 
+       <div class="project-grid">
+
+      <article class="project">
+        <img src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/creative-assets/s-migr/ul/g/8f/5e/reinforcement-learning-figure-1.png" alt="Reinforcement Learning"/>
+        <h4>Reinforcement Learning for Spacecraft Guidance</h4>
+        <p>We developed a robust guidance scheme for far-range rendezvous using reinforcement learning with safety and observability considerations and are looking into other RL applications in space.</p>
+         <a class="btn btn-primary" href="Papers/RLGuidancePaper/index.html" aria-label="Learn more">Learn more</a>
+      </article>
+
+      <article class="project">
+        <img src="indirect.png" alt="Indirect Opt"/>
+        <h4>Improving the convergence of indirect optimization with scaling factors </h4>
+        <p>We developed a method to use scaling factors to connect energy optimal problem to the time optimal and fuel optimal problems to improve convergence.</p>
+         <!-- <a class="btn btn-primary" href="Papers/RLGuidancePaper/index.html" aria-label="Learn more">Learn more</a> -->
+      </article>
+
+
+
+      <!-- <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_86baebc18930496e91aea1d42c48b937~mv2.png" alt="Multi-Active Debris Removal Tour Design"/>
+        <h4>Multi-Active Debris Removal Tour Design</h4>
+        <p>Working with Astroscale, we developed and studied the feasiblity of a two-spacecraft system for removing multiple tonne class orbital debris per mission.</p>
+        <a class="btn btn-primary" href="#" aria-label="Learn more about Multi-Active Debris Removal Tour Design">Learn more</a>
+      </article> -->
+
+      <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_43a443269b344215825335c454534145~mv2.png" alt="Preliminary Mission Design Tool (PMDT)"/>
+        <h4>Preliminary Mission Design Tool (PMDT)</h4>
+        <p>PMDT generates multi-target, fuel- and time-optimal tours using low-thrust propulsion. It accounts for J2 perturbations, drag, eclipses, and duty cycles. The tool can rapidly compute reference trajectories, providing solutions for multi-target low-thrust tours within seconds. </p>    
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Preliminary Mission Design Tool (PMDT)">Learn more</a> -->
+      </article>
+
+      <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_ea661ad6ef2e48a899dc559ed4fd05d8~mv2.png" alt="Multi-Objective Trajectory Optimization"/>
+        <h4>Global Trajectory Optimization Competitions (GTOCs)</h4>
+        <p> I participate in GTOCs as a team member of the Antipodes, where we develop indirect and convex-based tools for complex trajectory optimization problems. GTOC11 - 3rd Place, GTOC12 -5th Place, GTOC13 - 3rd Place. </p>
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Multi-Objective Trajectory Optimization">Learn more</a> -->
+      </article>
+
+
+
+      <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_46374a3ce4424907b8e0080ece132aff~mv2.jpg" alt="Model Predictive Control"/>
+        <h4>Model Predictive Control for Spacecraft Guidance</h4>
+        <p>We developed a convex-based MPC for low thrust transfer trajectory guidance</p>
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Model Predictive Control">Learn more</a> -->
+      </article>
+
+        <article class="project">
+        <img src="asteroiddefl.png" alt="Model Predictive Control"/>
+        <h4>Ion beam Deflection for Asteroids </h4>
+        <p>We developed a framework for assessing the feasibility of deflecting hazardous asteroids via ion beams</p>
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Model Predictive Control">Learn more</a> -->
+      </article>
+
+
+   
+    </div>
+
+    
+      </div>
+
+      <div class="projects-subsection" id="phd-work">
+           <div class="subsection-head">
+        <h3>PostDoc Work</h3>
+      </div> 
+       <div class="project-grid">
+
+      <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_d193bae78d71458a8de4e62503db951c~mv2.png" alt="CORTEX: Convex Optimization for Rendezvous Trajectory Optimization"/>
+        <h4>CORTEX: Convex Optimization for Rendezvous Trajectory Optimization</h4>
+        <p>CORTEX is a sunlight aware, robust convex-tracking scheme for final approach in RPO missions</p>
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about CORTEX">Learn more</a> -->
+      </article>
+
+   
+      <article class="project">
+        <img src="https://static.wixstatic.com/media/17cfa5_7096da0c1bd647e59cfadf856b965a12~mv2.jpg" alt="GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning"/>
+        <h4>GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning</h4>
+        <p>We developed the GRASP framework to handle end-to-end transfer and guidance of spacecraft servicing missions.</p>
+        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about GRASP">Learn more</a> -->
+      </article>
+    </div>
+
+
+   
+  </div>
+</section>
 
   <section id="publications" class="section reveal">
   <div class="container">

@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Robust RL Guidance for Far-Range Rendezvous</title>
+  <meta name="description" content="Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations." />
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  <style>
+    html { scroll-behavior: smooth; }
+    /* Prevent anchor jumps being hidden by sticky header */
+    section { scroll-margin-top: 88px; }
+
+    /* Critical: prevent accidental horizontal scroll caused by wide elements */
+    body { overflow-x: hidden; }
+
+    /* Make images always responsive */
+    img { max-width: 100%; height: auto; }
+
+    /* Prevent long code/BibTeX lines from forcing page overflow */
+    pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+  </style>
+</head>
+
+<body class="bg-white text-slate-900">
+  <!-- Top header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto w-full max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="#" class="font-semibold tracking-tight">Robust RL Guidance</a>
+
+      <nav class="hidden md:flex items-center gap-5 text-sm text-slate-600">
+        <a class="hover:text-slate-900" href="#overview">Overview</a>
+        <a class="hover:text-slate-900" href="#method">Method</a>
+        <a class="hover:text-slate-900" href="#results">Results</a>
+        <a class="hover:text-slate-900" href="#resources">Resources</a>
+        <a class="hover:text-slate-900" href="#bibtex">BibTeX</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-5xl px-4 py-8">
+    <!-- Title + metadata -->
+    <div class="space-y-3">
+      <h1 class="text-3xl font-semibold tracking-tight md:text-4xl">
+        Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations
+      </h1>
+
+      <div class="text-sm text-slate-700 space-y-1">
+        <div><span class="font-medium">Authors:</span> Minduli Wijayatunga, Harry Holt, Roberto Armellin</div>
+        <div><span class="font-medium">Journal:</span> Aerospace Science and Technology </div>
+        <div class="text-slate-500">Angles-only navigation • Observability • Safety • PPO-based guidance</div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-3 pt-2">
+        <!-- Put RLpaper.pdf in the same folder to make this work -->
+        <a href="https://www.sciencedirect.com/science/article/pii/S1270963825000689"
+           class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50">
+          Paper
+        </a>
+        <!-- Add your GitHub link later -->
+        <a href="#resources"
+           class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50">
+          Code
+        </a>
+        <a href="#bibtex"
+           class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50">
+          Cite
+        </a>
+      </div>
+    </div>
+
+    <!-- Compact TOC (normal responsive, no weird left spacing) -->
+    <div class="mt-6 rounded-xl border border-slate-200 p-4">
+      <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">On this page</div>
+      <nav class="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+        <a class="text-slate-600 hover:text-slate-900" href="#overview">Overview</a>
+        <a class="text-slate-600 hover:text-slate-900" href="#motivation">Motivation</a>
+        <a class="text-slate-600 hover:text-slate-900" href="#method">Method</a>
+        <a class="text-slate-600 hover:text-slate-900" href="#results">Results</a>
+        <a class="text-slate-600 hover:text-slate-900" href="#resources">Resources</a>
+        <a class="text-slate-600 hover:text-slate-900" href="#bibtex">BibTeX</a>
+      </nav>
+    </div>
+
+    <!-- Hero image -->
+
+
+    <!-- Content -->
+    <section id="overview" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Overview</h2>
+        <p class="mt-3 leading-7 text-slate-800">
+        This work addresses far-range rendezvous under angles-only navigation by combining nominal trajectory planning
+        under fuel, safety, and observability constraints with a reinforcement-learning guidance layer trained under realistic
+        uncertainties. The goal of the RL guidance is to maintain safety and observability while minimizing fuel consumption during execution.
+      </p>
+    <figure class="mt-6 overflow-hidden border border-slate-200 bg-slate-50">
+      <img src="./assets/hero.png" alt="Overview figure" class="w-full h-auto object-contain" />
+      <figcaption class="px-4 py-3 text-sm text-slate-600">
+        Overview figure (export from the paper).
+      </figcaption>
+    </figure>
+    
+
+      <div class="mt-4 grid gap-4 md:grid-cols-3">
+        <div class="rounded-xl border border-slate-200 p-4">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Problem</div>
+          <div class="mt-2 text-sm text-slate-800">
+            Angles-only navigation can be weakly observable unless the relative geometry is actively shaped. Far-range
+            rendezvous must maintain passive and active safety throughout. Existing guidance strategies are seldom focused on fuel conservation.
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 p-4">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Approach</div>
+          <div class="mt-2 text-sm text-slate-800">
+            Two-stage pipeline: (1) nominal plan optimised for Δv/observability/safety; (2) RL selects a contraction
+            parameter used by a convex optimisation step to compute guidance impulses.
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 p-4">
+          <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Result</div>
+          <div class="mt-2 text-sm text-slate-800">
+            Demonstrated Δv savings relative to alternative guidance strategies in the presented scenario while
+            maintaining safety and observability.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="motivation" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Motivation</h2>
+      <p class="mt-3 leading-7 text-slate-800">
+        Far-range rendezvous demands robust execution in the presence of initial state dispersion and actuation errors.
+        With angles-only measurements, observability—particularly range—can degrade unless the guidance policy actively
+        manages relative motion geometry. At the same time, safety constraints (e.g., keep-out regions and passive safety)
+        must be respected throughout the approach.
+      </p>
+    </section>
+
+   
+    <!-- UPDATED METHOD SECTION WITH MATH -->
+    <section id="method" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Method</h2>
+
+      <p class="mt-3 leading-7 text-slate-800">
+        The approach is a two-stage pipeline: nominal impulsive trajectory design that explicitly trades fuel, observability,
+        and safety, followed by an RL-guided execution layer that selects a contraction level and solves a small convex problem
+        to compute guidance impulses online.
+      </p>
+
+      <!-- Stage 1 -->
+      <div class="mt-5 rounded-xl border border-slate-200 p-5">
+        <h3 class="text-lg font-semibold">Stage 1 — Nominal trajectory planning</h3>
+        <p class="mt-2 leading-7 text-slate-800">
+          We select a sequence of impulsive manoeuvres \(\{\Delta {\mathbf{v}}_i\}_{i=1}^{n}\) by minimising a composite objective:
+        </p>
+
+        <div class="math-block mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-slate-800">
+          <div class="text-sm text-slate-600 mb-2">Optimisation objective</div>
+          \[
+            \min_{\{\Delta {\mathbf{v}}_i\}} \; G
+            \;=\; G_{\Delta {v}} \;+\; G_{\mathrm{obs}} \;+\; G_{\mathrm{safe}}.
+          \]
+        </div>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+          <div class="rounded-lg border border-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-700">Fuel / \(\Delta v\) metric</div>
+            <p class="mt-2 text-sm leading-6 text-slate-800">
+              Total impulse magnitude over the plan:
+            </p>
+            <div class="math-block mt-2 text-sm text-slate-800">
+              \[
+                G_{\Delta {v}}=\sum_{i=1}^{n}\left\lVert \Delta {\mathbf{v}}_i \right\rVert_2.
+              \]
+            </div>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+              The final impulse is computed via the Lambert's method to ensure the terminal target state is reached.
+            </p>
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-700">Observability metric</div>
+            <p class="mt-2 text-sm leading-6 text-slate-800">
+              Observability is encouraged by shaping the measurement profile. The score used is the alignment
+              between ballistic and forced measurement directions:
+            </p>
+            <div class="math-block mt-2 text-sm text-slate-800">
+              \[
+                \eta(t_k)={\mathbf{y}}_{\mathrm{bal}}(t_k)^{\top}\,{\mathbf{y}}(t_k),
+                 \]
+                  \[
+                G_{\mathrm{obs}}=\sum_{k=0}^{t_f}\eta(t_k).
+              \]
+            </div>
+            <!-- Observability animation (η vs angle) -->
+
+  <p class="text-sm leading-6 text-slate-700">
+    <span class="font-medium">Blue:</span>  \({\mathbf{y}}(t)\).
+    <span class="ml-2 font-medium">Black:</span>  \({\mathbf{y}}_{\mathrm{bal}}(t)\).
+     </p>
+
+   <svg id="etaSvg" viewBox="0 0 520 400" class="w-full h-auto">
+      <rect x="0" y="0" width="520" height="230" fill="white"></rect>
+
+      <!-- origin -->
+      <circle cx="90" cy="175" r="4" fill="#0f172a"></circle>
+
+      <!-- ballistic vector (fixed, black) -->
+      <line id="ybalLine" x1="90" y1="175" x2="260" y2="115" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+      <polygon id="ybalHead" fill="#0f172a"></polygon>
+
+      <!-- forced vector (rotating, blue) -->
+      <line id="yLine" x1="90" y1="175" x2="260" y2="175" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+      <polygon id="yHead" fill="#2563eb"></polygon>
+
+      <!-- angle arc -->
+      <path id="angleArc" d="" fill="none" stroke="#94a3b8" stroke-width="3" />
+
+      <!-- eta readout -->
+      <text x="330" y="85" font-size="12" fill="#64748b"></text>
+      <text id="etaText" x="330" y="112" font-size="18" fill="#0f172a" font-weight="600"></text>
+    </svg>
+
+
+          
+          </div>
+
+          <div class="rounded-lg border border-slate-200 p-4">
+            <div class="text-sm font-semibold text-slate-700">Safety metric</div>
+            <p class="mt-2 text-sm leading-6 text-slate-800">
+              Point-wise safety (PWS) and passive safety (PAS) are encoded via penalties:
+            </p>
+            <div class="math-block mt-2 text-sm text-slate-800">
+                \[
+                    G_{\mathrm{safe}}=\sum_{k=0}^{t_f}\Big(\zeta_{\mathrm{PAS}}(t_k)+\zeta_{\mathrm{PWS}}(t_k)\Big).
+                \]
+                where
+                \[
+                    \zeta_{\mathrm{PWS}}(t)=\exp\!\left(-\frac{\|\mathbf{r}^{\mathrm{rel}}(t)\|_2^2}{2\sigma^2}\right).
+                \]
+                  \[
+                    \zeta_{\mathrm{PAS}}(t)=\exp\!\left(-\frac{\mathbf{\delta r}^{min}_{PAS}(t)^2}{2\sigma^2}\right).
+                \]
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+  where \(\mathbf{r}^{\mathrm{rel}}(t)\) is the relative position (so \(\|\mathbf{r}^{\mathrm{rel}}(t)\|_2\) is the relative distance),
+  and \(\delta r_{\mathrm{PAS}}^{\min}(t)\) is the minimum passive separation distance.
+</p>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="mt-5 rounded-xl border border-slate-200 p-5">
+        <h3 class="text-lg font-semibold">Stage 2 — RL guidance + convex optimisation</h3>
+        <p class="mt-2 leading-7 text-slate-800">
+          At each guidance update \(k\), a PPO policy outputs a contraction parameter \(\alpha_k\) that limits how quickly
+          the deviation from the nominal plan must shrink. Given \(\alpha_k\), we compute the minimum-effort impulse
+          by solving a small convex programme.
+        </p>
+<!-- Stage 2 visuals (side-by-side) -->
+<div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+  <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <img
+      src="./assets/stage2_nominal_vs_corrections.png"
+      alt="Nominal trajectory and corrective impulses illustration"
+      class="w-full h-auto object-contain"
+      loading="lazy"
+    />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Nominal trajectory and corrective impulses \(\delta\Delta \mathbf{v}\) applied during execution.
+    </figcaption>
+  </figure>
+
+  <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <img
+      src="./assets/contractionalpha.gif"
+      alt="Animation: RL-selected contraction parameter alpha"
+      class="w-full h-auto object-contain"
+      loading="lazy"
+    />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      RL selects the contraction parameter \(\alpha\), shaping the online guidance update.
+    </figcaption>
+  </figure>
+</div>
+
+        <div class="math-block mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-slate-800">
+          <div class="text-sm text-slate-600 mb-2">QCQP problem</div>
+          \[
+            \begin{aligned}
+              \min_{\Delta {\mathbf{v}}_k}\quad
+                & \left\lVert \Delta {\mathbf{v}}_k \right\rVert_2 \\
+              \text{s.t.}\quad
+                & \mathbf{x}_{k+1} = \mathbf{A}\mathbf{x}_k + \mathbf{B}\Delta {\mathbf{v}}_k, \\
+                & \left\lVert \mathbf{x}_{k+1}-\mathbf{x}^{\mathrm{nom}}_{k+1} \right\rVert_2
+                  \le \alpha_k \left\lVert \mathbf{x}_k-\mathbf{x}^{\mathrm{nom}}_k \right\rVert_2
+            \end{aligned}
+          \]
+        </div>
+
+        <p class="mt-3 leading-7 text-slate-800">
+          Training is performed in a stochastic environment (initial state errors, thrust errors), with a reward that
+          discourages \(\Delta v\), constraint violations, and poor observability, while encouraging convergence to the terminal set.
+        </p>
+        <div class="math-block mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-slate-800">
+  <div class="text-sm text-slate-600 mb-2">Reward</div>
+  \[
+    R_j \;=\; -\Big(\|\Delta \mathbf{v}_j\|_2 \;+\; P_{j,\mathrm{obs}} \;+\; P_{j,\mathrm{safe}}\Big).
+  \]
+</div>
+      </div>
+
+      <!-- Method figure
+      <figure class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="./assets/fig_method.png" alt="Method figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Method figure. Save your slide image as <code>assets/fig_method.png</code> (or update the filename here).
+        </figcaption>
+      </figure> -->
+    </section>
+
+  <section id="results" class="mt-10">
+  <h2 class="text-2xl font-semibold tracking-tight">Results</h2>
+
+  <p class="mt-3 leading-7 text-slate-800">
+    Performance is evaluated using 500-sample Monte Carlo simulations under three thrust-error regimes (no / low / high).
+    We report total \(\Delta v\) consumption, safety with a 500 m keep-out zone (KOZ), and observability using the EKF
+    maximum position-covariance eigenvalue metric.
+  </p>
+
+  <div class="mt-4 rounded-xl border border-slate-200 p-5">
+  <h3 class="text-lg font-semibold">Evaluation setup</h3>
+
+  <p class="mt-2 leading-7 text-slate-800">
+    We benchmark the RL-trained contraction parameter \(\alpha_{RL}\) against fixed and heuristic contraction schedules,
+    and evaluate robustness under zero-mean thrust errors applied to each commanded impulse. Reported “error levels” are
+    <span class="font-medium">standard deviations</span> (bias \(=0\)).
+  </p>
+
+  <div class="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- Table: alpha baselines -->
+    <div class="rounded-xl border border-slate-200 bg-white">
+      <div class="border-b border-slate-200 px-4 py-3">
+        <div class="text-sm font-semibold text-slate-800">Contraction-parameter baselines</div>
+        <div class="mt-1 text-sm text-slate-600">
+          \(\alpha_{RL}\) is learned (PPO). Baselines below are compared against it.
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-left text-slate-600">
+            <tr class="border-b border-slate-200">
+              <th class="px-4 py-2">Method</th>
+              <th class="px-4 py-2">Definition</th>
+              <th class="px-4 py-2">Notes</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-800">
+            <tr class="border-b border-slate-100">
+              <td class="px-4 py-2 font-medium">\(\alpha_{RL}\)</td>
+              <td class="px-4 py-2">\(\alpha\) from PPO policy</td>
+              <td class="px-4 py-2">Learned online contraction level</td>
+            </tr>
+
+            <tr class="border-b border-slate-100">
+              <td class="px-4 py-2 font-medium">\(\alpha_{LD}\)</td>
+              <td class="px-4 py-2">
+                \[
+                  \alpha_{LD,j}=1-\frac{t_j-t_0}{t_f-t_0}
+                \]
+              </td>
+              <td class="px-4 py-2">Linearly decreasing schedule</td>
+            </tr>
+
+            <tr class="border-b border-slate-100">
+              <td class="px-4 py-2 font-medium">\(\alpha_C\)</td>
+              <td class="px-4 py-2">\(\alpha_C = 0\)</td>
+              <td class="px-4 py-2">Constant contraction</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 font-medium">\(\alpha_S\)</td>
+              <td class="px-4 py-2">
+                \[
+                  \alpha_S=\arg\min_{\alpha}\left(\sum_{k=1}^{12}\sum_{j=1}^{j_{\mathrm{end}}} R_j\right)
+                \]
+              </td>
+              <td class="px-4 py-2">Sigma-point optimised \(\alpha\)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table: thrust error levels -->
+    <div class="rounded-xl border border-slate-200 bg-white">
+      <div class="border-b border-slate-200 px-4 py-3">
+        <div class="text-sm font-semibold text-slate-800">Thrust error levels (standard deviations)</div>
+        <div class="mt-1 text-sm text-slate-600">
+          \(\delta_{\Delta v}\) is the <span class="font-medium">percent</span> magnitude perturbation,
+          \(\delta\beta\) is the <span class="font-medium">in-plane</span> angle perturbation (deg),
+          and \(\delta\gamma\) is the <span class="font-medium">out-of-plane</span> angle perturbation (deg).
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-left text-slate-600">
+            <tr class="border-b border-slate-200">
+              <th class="px-4 py-2">Simulation</th>
+              <th class="px-4 py-2">\(\sigma_{\Delta v}\) (%)</th>
+              <th class="px-4 py-2">\(\sigma_{\beta}\) (deg)</th>
+              <th class="px-4 py-2">\(\sigma_{\gamma}\) (deg)</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-800">
+            <tr class="border-b border-slate-100">
+              <td class="px-4 py-2 font-medium">No error</td>
+              <td class="px-4 py-2">0</td>
+              <td class="px-4 py-2">0</td>
+              <td class="px-4 py-2">0</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="px-4 py-2 font-medium">Low error</td>
+              <td class="px-4 py-2">2</td>
+              <td class="px-4 py-2">1</td>
+              <td class="px-4 py-2">1</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 font-medium">High error</td>
+              <td class="px-4 py-2">4</td>
+              <td class="px-4 py-2">2</td>
+              <td class="px-4 py-2">2</td>
+            </tr>
+          </tbody>
+        </table>
+
+          <div class="mt-3 text-sm text-slate-700">
+             \[
+      \delta_{\Delta v,j}\sim\mathcal N(0,\sigma_{\Delta v}),\qquad
+      \delta_{\beta,j}\sim\mathcal N(0,\sigma_{\beta}),\qquad
+      \delta_{\gamma,j}\sim\mathcal N(0,\sigma_{\gamma}),
+    \]
+    \[
+      \Delta \mathbf v_j^{\,\mathrm{exec}}
+      \;=\;
+      \big(1 + \delta_{\Delta v,j}\big)\;
+      \mathbf R\!\big(\delta_{\beta,j},\delta_{\gamma,j}\big)\;
+      \Delta \mathbf v_j^{\,\mathrm{cmd}}.
+    \]
+    </div>
+      </div>
+    </div>
+  
+  </div>
+
+</div>
+
+  <!-- Headline metrics -->
+
+
+
+  <!-- Results figures -->
+<div class="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+  <!-- Δv -->
+  <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <img src="./assets/dvfig.png" alt="Delta-v distribution across contraction strategies and error levels"
+         class="w-full h-auto object-contain" loading="lazy" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      \(\Delta v\) distributions across contraction strategies under no/low/high thrust error.
+      \(\alpha_{RL}\) achieves the lowest mean \(\Delta v\) among the safe strategies.
+    </figcaption>
+  </figure>
+
+  <!-- Safety -->
+  <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <img src="./assets/safefig.png" alt="Safety metrics for PWS and PAS under error levels"
+         class="w-full h-auto object-contain" loading="lazy" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Safety evaluation: PWS minimum separation and PAS missed-impulse minimum separation.
+      The dashed line indicates the 500 m KOZ threshold; only \(\alpha_{RL}\) maintains PAS safety across all error levels.
+    </figcaption>
+  </figure>
+</div>
+
+  <!-- Optional: more figures collapsed -->
+<details class="mt-4 rounded-2xl border border-slate-200 bg-white">
+  <summary class="cursor-pointer select-none px-4 py-3 text-sm font-semibold text-slate-800">
+    More figures (observability and terminal error)
+  </summary>
+
+  <div class="grid grid-cols-1 gap-4 px-4 pb-4 pt-2 lg:grid-cols-2">
+    <!-- Observability -->
+    <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <img src="./assets/EKFnewnew.png" alt="EKF max eigenvalue of position covariance over time"
+           class="w-full h-auto object-contain" loading="lazy" />
+      <figcaption class="px-4 py-3 text-sm text-slate-600">
+        Observability: maximum eigenvalue of EKF position covariance over time (no/low/high error).
+        \(\alpha_{RL}\) stays close to the nominal trajectory envelope and reconverges after early deviations.
+      </figcaption>
+    </figure>
+
+    <!-- Terminal error -->
+    <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <img src="./assets/errorterminal.png" alt="Terminal error distribution under thrust error levels"
+           class="w-full h-auto object-contain" loading="lazy" />
+      <figcaption class="px-4 py-3 text-sm text-slate-600">
+        Terminal error distribution for the rendezvous terminal state under no/low/high thrust error.
+      </figcaption>
+    </figure>
+  </div>
+</details>
+
+   
+  <div class="mt-4 grid gap-4 md:grid-cols-3">
+     
+    <div class="rounded-xl border border-slate-200 p-4">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Fuel savings</div>
+      <div class="mt-2 text-sm text-slate-800">
+        RL guidance achieves the lowest total \(\Delta v\) among the strategies that maintain safety and observability.
+      </div>
+      <div class="mt-3 text-sm text-slate-700">
+        <span class="font-semibold">Mean total \(\Delta v\)</span> (RL):
+        <ul class="mt-2 list-disc pl-5 space-y-1">
+          <li>No error: \(37.07 \pm 17.41\) m/s</li>
+          <li>Low error: \(37.52 \pm 18.15\) m/s</li>
+          <li>High error: \(39.90 \pm 19.04\) m/s</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 p-4">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Safety</div>
+      <div class="mt-2 text-sm text-slate-800">
+        Safety is evaluated via point-wise safety (PWS) and passive safety (PAS), with a <span class="font-medium">500 m KOZ</span>.
+      </div>
+      <ul class="mt-3 list-disc pl-5 space-y-1 text-sm text-slate-700">
+        <li>\(\alpha_{RL}\) maintains KOZ compliance across all error regimes in the Monte Carlo runs.</li>
+        <li>Under PAS (missed-impulse) evaluation, only \(\alpha_{RL}\) avoids KOZ breaches across all error cases.</li>
+      </ul>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 p-4">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Observability</div>
+      <div class="mt-2 text-sm text-slate-800">
+        Observability is assessed using an EKF and the time evolution of the maximum eigenvalue of the position covariance.
+      </div>
+      <ul class="mt-3 list-disc pl-5 space-y-1 text-sm text-slate-700">
+        <li>\(\alpha_{RL}\) trajectories keep covariance close to the nominal profile and converge back within \(\sim\)2 h.</li>
+        <li>Non-RL baselines show broader covariance variation, often worse than the nominal trajectory.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bullet list (what you originally asked to fill)
+  <div class="mt-6 rounded-xl border border-slate-200 p-5">
+    <ul class="list-disc space-y-2 pl-5 text-slate-800">
+      <li>
+        <span class="font-medium">\(\Delta v\) comparison (Monte Carlo, 500 runs):</span>
+        RL achieves the lowest total \(\Delta v\) while satisfying safety and observability.
+        The paper reports a <span class="font-medium">22.31%</span> reduction versus the next-best safe guidance strategy in the no-error case,
+        and <span class="font-medium">22.04%</span> in the high-error case.
+        (For reference, Table 7 gives \(\alpha_{RL}\) mean total \(\Delta v\) \(\approx 37\)–\(40\) m/s across error levels.)
+      </li>
+
+      <li>
+        <span class="font-medium">Safety metrics:</span>
+        PWS safety is validated by the minimum separation \(\|\mathbf{r}^{rel}(t)\|_{\min}\).
+        PAS safety is additionally checked under missed-impulse conditions; with a 500 m KOZ boundary,
+        only \(\alpha_{RL}\) remains KOZ-safe across no/low/high error cases.
+      </li>
+
+      <li>
+        <span class="font-medium">Observability metrics:</span>
+        Using an EKF, observability is quantified through the maximum eigenvalue of the position covariance over time.
+        \(\alpha_{RL}\) remains close to nominal and exhibits improved observability behaviour relative to non-RL baselines,
+        with deviations concentrated early in the transfer before converging.
+      </li>
+
+      <li>
+        <span class="font-medium">Monte Carlo robustness:</span>
+        Terminal state deviation is negligible in the no-error case, and rises to at most \(\sim 1\) m in the high-error case
+        (with the target \(\sim 1000\) m away at \(t_f\)).
+        The paper also notes improved terminal accuracy relative to a referenced baseline (reported 8–10 m deviations),
+        and substantially lower mean \(\Delta v\) than a referenced stochastic result (reported average \(\Delta v \approx 86.85\) m/s).
+      </li>
+    </ul>
+  </div> -->
+
+
+
+
+
+</section>
+
+
+
+    <section id="bibtex" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">BibTeX</h2>
+ 
+      <div class="mt-3 rounded-2xl border border-slate-200 bg-slate-50">
+        <div class="flex items-center justify-between px-4 py-3">
+          <div class="text-sm font-medium text-slate-700">Citation</div>
+          <button id="copyBib"
+                  class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm hover:bg-slate-50">
+            Copy
+          </button>
+        </div>
+        <pre class="px-4 pb-4 text-sm text-slate-800"><code id="bibtexText">@article{WIJAYATUNGA2025109996,
+title = {Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations},
+journal = {Aerospace Science and Technology},
+volume = {159},
+pages = {109996},
+year = {2025},
+issn = {1270-9638},
+doi = {https://doi.org/10.1016/j.ast.2025.109996},
+author = {Minduli Charithma Wijayatunga and Roberto Armellin and Harry Holt}}</code></pre>
+      </div>
+    </section>
+
+    <footer class="mt-14 border-t border-slate-200 pt-6 text-sm text-slate-600">
+      <div>© <span id="year"></span> — Paper page.</div>
+    </footer>
+  </main>
+
+  <script>
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // copy BibTeX
+    document.getElementById("copyBib").addEventListener("click", async () => {
+      const text = document.getElementById("bibtexText").innerText;
+      const btn = document.getElementById("copyBib");
+      const old = btn.textContent;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+        setTimeout(() => btn.textContent = old, 900);
+      } catch (e) {
+        btn.textContent = "Copy failed";
+        setTimeout(() => btn.textContent = old, 1200);
+      }
+    });
+  </script>
+
+  <script>
+  (function initEtaAnimationSimple() {
+    const svg = document.getElementById("etaSvg");
+    if (!svg) return;
+
+    const ybalLine = document.getElementById("ybalLine");
+    const yLine = document.getElementById("yLine");
+    const ybalHead = document.getElementById("ybalHead");
+    const yHead = document.getElementById("yHead");
+    const angleArc = document.getElementById("angleArc");
+    const etaText = document.getElementById("etaText");
+
+    // Geometry
+    const O = { x: 90, y: 175 };
+    const L = 185;
+    const thetaBal = -0.45; // fixed ballistic angle (rad)
+
+    function polarToXY(theta) {
+      return { x: O.x + L * Math.cos(theta), y: O.y + L * Math.sin(theta) };
+    }
+
+    function setLine(lineEl, p2) {
+      lineEl.setAttribute("x1", O.x);
+      lineEl.setAttribute("y1", O.y);
+      lineEl.setAttribute("x2", p2.x);
+      lineEl.setAttribute("y2", p2.y);
+    }
+
+    function setArrowHead(polyEl, p2, theta) {
+      const headLen = 14, headWid = 8;
+      const back = { x: p2.x - headLen * Math.cos(theta), y: p2.y - headLen * Math.sin(theta) };
+      const left = { x: back.x + headWid * Math.cos(theta + Math.PI/2), y: back.y + headWid * Math.sin(theta + Math.PI/2) };
+      const right = { x: back.x + headWid * Math.cos(theta - Math.PI/2), y: back.y + headWid * Math.sin(theta - Math.PI/2) };
+      polyEl.setAttribute("points", `${p2.x},${p2.y} ${left.x},${left.y} ${right.x},${right.y}`);
+    }
+
+    function wrapToPi(a) {
+      while (a > Math.PI) a -= 2*Math.PI;
+      while (a < -Math.PI) a += 2*Math.PI;
+      return a;
+    }
+
+    function arcPath(theta1, theta2, r) {
+      const p1 = { x: O.x + r * Math.cos(theta1), y: O.y + r * Math.sin(theta1) };
+      const p2 = { x: O.x + r * Math.cos(theta2), y: O.y + r * Math.sin(theta2) };
+      const sweep = theta2 > theta1 ? 1 : 0;
+      return `M ${p1.x} ${p1.y} A ${r} ${r} 0 0 ${sweep} ${p2.x} ${p2.y}`;
+    }
+
+    // draw ballistic once
+    const pBal = polarToXY(thetaBal);
+    setLine(ybalLine, pBal);
+    setArrowHead(ybalHead, pBal, thetaBal);
+
+    let t0 = null;
+    function tick(ts) {
+      if (t0 === null) t0 = ts;
+      const t = (ts - t0) / 1000.0;
+
+      // Slower motion: small oscillation
+      const theta = 0.75 * Math.sin(0.55 * t); // radians
+
+      const p = polarToXY(theta);
+      setLine(yLine, p);
+      setArrowHead(yHead, p, theta);
+
+      const dtheta = Math.abs(wrapToPi(theta - thetaBal));
+      const eta = Math.cos(dtheta); // unit-vector intuition
+
+      // arc (small-to-large)
+      const lo = Math.min(thetaBal, theta);
+      const hi = Math.max(thetaBal, theta);
+      angleArc.setAttribute("d", arcPath(lo, hi, 55));
+
+      etaText.textContent = `η = ${eta.toFixed(3)}`;
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  })();
+</script>
+
+</body>
+
+</html>
