@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PMDT — Preliminary Mission Design Tool (Astrodynamics 2023)</title>
+  <meta name="description" content="PMDT: a preliminary mission design tool for low-thrust multi-target active debris removal tours, including J2-driven RAAN matching, drag, eclipses, and duty cycles." />
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    section { scroll-margin-top: 92px; }
+    body { overflow-x: hidden; } /* critical: never allow sideways scroll */
+    img { max-width: 100%; height: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+  </style>
+</head>
+
+<body class="bg-white text-slate-900">
+  <!-- Top header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto w-full max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="#" class="font-semibold tracking-tight">PMDT</a>
+
+      <nav class="hidden md:flex items-center gap-5 text-sm text-slate-600">
+        <a class="hover:text-slate-900" href="#overview">Overview</a>
+        <a class="hover:text-slate-900" href="#method">Method</a>
+        <a class="hover:text-slate-900" href="#results">Results</a>
+        <a class="hover:text-slate-900" href="#resources">Resources</a>
+        <a class="hover:text-slate-900" href="#cite">Cite</a>
+      </nav>
+
+      <button id="navToggle"
+              class="md:hidden inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+              aria-label="Open menu" aria-expanded="false">
+        Menu
+      </button>
+    </div>
+
+    <!-- Mobile nav -->
+    <div id="mobileNav" class="md:hidden hidden border-t border-slate-200 bg-white">
+      <div class="mx-auto w-full max-w-5xl px-4 py-3 flex flex-col gap-2 text-sm text-slate-700">
+        <a class="py-1 hover:text-slate-900" href="#overview">Overview</a>
+        <a class="py-1 hover:text-slate-900" href="#method">Method</a>
+        <a class="py-1 hover:text-slate-900" href="#results">Results</a>
+        <a class="py-1 hover:text-slate-900" href="#resources">Resources</a>
+        <a class="py-1 hover:text-slate-900" href="#cite">Cite</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-5xl px-4 py-8">
+    <!-- Title + metadata -->
+    <div class="space-y-3">
+      <h1 class="text-3xl font-semibold tracking-tight md:text-4xl">
+        Preliminary Mission Design Tool (PMDT) for multi-target ADR tours
+      </h1>
+
+      <div class="text-sm text-slate-700 space-y-1">
+        <div><span class="font-medium">Paper:</span> <em>Design and guidance of a multi-active debris removal mission</em></div>
+        <div><span class="font-medium">Authors:</span> Minduli C. Wijayatunga, Harry Holt, Laura Pirovano, Alekxr Lidtke, Roberto Armellin</div>
+        <div><span class="font-medium">Venue:</span> <em>Astrodynamics</em>, 2023</div>
+        <div><span class="font-medium">DOI:</span> 10.1007/s42064-023-0159-3</div>
+        <div class="text-slate-500">
+          Multi-target low-thrust tours • Extended Edelbaum • J2-driven RAAN matching • Drag + eclipses + duty cycle • Fast tour evaluation
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-2 pt-2">
+        <a class="inline-flex items-center justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+           href="https://arxiv.org/abs/2210.11701" target="_blank" rel="noopener">
+          Paper 
+        </a>
+
+        <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+           href="https://github.com/MinduliW/Preliminary-Mission-Design-Tool-Public" target="_blank" rel="noopener">
+          Code (GitHub)
+        </a>
+
+        <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+           href="#cite">
+          BibTeX
+        </a>
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <section id="overview" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Overview</h2>
+
+      <div class="mt-4 space-y-4">
+        <p class="leading-7 text-slate-800">
+          <span class="font-medium">PMDT</span> is a preliminary mission design tool built to evaluate and optimise
+          <span class="font-medium">multi-target</span> low-thrust active debris removal (ADR) tours with realistic operational effects:
+          \(J_2\)-induced precession for RAAN matching, atmospheric drag, eclipses (available thrust time), and duty cycles.
+        </p>
+
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+          <div class="text-sm font-semibold text-slate-900">What PMDT gives you</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-700">
+            <li>• Per-leg \(\Delta v\) and time-of-flight (TOF) estimates for a candidate tour</li>
+            <li>• A RAAN-matching transfer construction using a thrust–phasing–thrust sequence</li>
+            <li>• Support for drag, eclipses, and duty-cycle constraints in the low-thrust transfer model</li>
+            <li>• A practical basis for screening many tour candidates before committing to high-fidelity optimisation</li>
+          </ul>
+        </div>
+
+        <p class="leading-7 text-slate-800">
+          In the paper’s case study, the mission uses <span class="font-medium">two spacecraft</span> (Servicer + Shepherd) to remove multiple
+          tonne-class objects from sun-synchronous LEO, with a hybrid of low-thrust transfer arcs and chemical deorbiting for re-entry compliance.
+        </p>
+
+       <figure class="mt-5 mx-auto max-w-xl overflow-hidden border border-slate-200 bg-slate-50">
+  <img src="./assets/mso.png" alt="Thrust–phasing–thrust structure" class="w-full h-auto object-contain" />
+  <figcaption class="px-4 py-3 text-sm text-slate-600">
+    Multi-ADR tour conops.
+  </figcaption>
+</figure>
+
+      </div>
+    </section>
+
+    <!-- Method -->
+    <section id="method" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Method</h2>
+
+      <div class="mt-4 space-y-4">
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">1) Extended Edelbaum transfers (drag + eclipses + duty cycle)</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            PMDT builds on an <span class="font-medium">extended Edelbaum method</span> to compute low-thrust transfers in
+            \((a,i)\) while accounting for drag (semi-major axis decay), eclipse-limited thrust availability, and duty-cycle throttling.
+            Conceptually, the transfer is discretised into nodes and updated with additional accelerations and availability weights.
+          </p>
+             <figure class="mt-4  mx-auto max-w-xl  border border-slate-200 bg-slate-50">
+            <img src="./assets/extEdel.png" alt="Thrust–phasing–thrust structure" class="w-full h-auto object-contain" />
+            <figcaption class="px-4 py-3 text-sm text-slate-600">
+             Extended Edelbaum Method
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">2) RAAN matching via thrust–phasing–thrust (using \(J_2\) precession)</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            To match a target RAAN efficiently, PMDT inserts an intermediate <span class="font-medium">phasing orbit</span> that leverages
+            differential \(J_2\) precession. The sequence is:
+            thrust to a phasing orbit, coast (with optional drag-compensation thrust), then thrust to the target orbit.
+          </p>
+
+          <figure class="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+            <img src="./assets/raanmatch.png" alt="Thrust–phasing–thrust structure" class="w-full h-auto object-contain" />
+            <figcaption class="px-4 py-3 text-sm text-slate-600">
+              Thrust–phasing–thrust RAAN-matching structure (originally from Max Cerf).
+            </figcaption>
+          </figure>
+           <figure class="mt-4  mx-auto max-w-xl  border border-slate-200 bg-slate-50">
+            <img src="./assets/raanmatchalg.png" alt="Thrust–phasing–thrust structure" class="w-full h-auto object-contain" />
+            <figcaption class="px-4 py-3 text-sm text-slate-600">
+             RAAN Matching Method
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">3) Multi-target tour accounting (handover + proximity operations)</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            For a candidate tour \(\{\text{debris}(1),\dots,\text{debris}(N)\}\), PMDT sums transfer costs leg-by-leg and
+            includes non-transfer phases such as <span class="font-medium">handover time</span> and <span class="font-medium">proximity operations time</span>.
+            The Shepherd orbit and the Servicer’s rendezvous/return pattern are explicitly represented in the tour evaluation.
+          </p>
+           <figure class="mt-4  mx-auto max-w-xl  border border-slate-200 bg-slate-50">
+            <img src="./assets/astroscaleplotsd.png" alt="Thrust–phasing–thrust structure" class="w-full h-auto object-contain" />
+            <figcaption class="px-4 py-3 text-sm text-slate-600">
+            Fitness function calculation for the optimization
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Results</h2>
+
+      <div class="mt-4 space-y-6">
+
+        <!-- Table 2 -->
+        <div class="rounded-xl border border-slate-200 overflow-hidden">
+          <div class="px-4 py-3 bg-slate-50 border-b border-slate-200">
+            <div class="text-sm font-semibold text-slate-900">Fuel-optimal Tour for 3 Debris Collection</div>
+            <div class="text-xs text-slate-600">Total: \(\Delta v = 945.58\,\mathrm{m/s}\), TOF = 1825.00 d</div>
+          </div>
+
+     <div class="mt-5 grid gap-4 md:grid-cols-2">
+  <figure class="overflow-hidden">
+    <img src="./assets/fullfigfopt.png" alt="Fuel-optimal tour and guidance profile" class="w-full h-auto object-contain" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Fuel-optimal tour: guidance/profile.
+    </figcaption>
+  </figure>
+
+  <figure class="overflow-hidden ">
+    <img src="./assets/errorfopt.png" alt="Fuel-optimal tour terminal errors" class="w-full h-auto object-contain" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Fuel-optimal tour: error over time
+    </figcaption>
+  </figure>
+</div>
+
+      
+
+   
+   
+
+
+        <!-- Table 6 -->
+        <div class="rounded-xl border border-slate-200 overflow-hidden">
+          <div class="px-4 py-3 bg-slate-50 border-b border-slate-200">
+            <div class="text-sm font-semibold text-slate-900">Time-optimal tour for 3 Debris Collection </div>
+            <div class="text-xs text-slate-600">Total: \(\Delta v = 1500.00\,\mathrm{m/s}\), TOF = 1274.54 d</div>
+          </div>
+
+               <div class="mt-5 grid gap-4 md:grid-cols-2">
+  <figure class="overflow-hidden">
+    <img src="./assets/fullfigtopt.png" alt="time-optimal tour and guidance profile" class="w-full h-auto object-contain" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Time-optimal tour: guidance/profile.
+    </figcaption>
+  </figure>
+
+  <figure class="overflow-hidden ">
+    <img src="./assets/te2.png" alt="time-optimal tour terminal errors" class="w-full h-auto object-contain" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Time-optimal tour: error over time
+    </figcaption>
+  </figure>
+</div>
+        
+        </div>
+
+       
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Resources</h2>
+
+      <div class="mt-4 space-y-4">
+        <div class="rounded-xl border border-slate-200 p-5">
+          <ul class="space-y-2 text-sm text-slate-700">
+            <li>• <a class="underline hover:text-slate-900" href="./paper.pdf" target="_blank" rel="noopener">Paper PDF</a></li>
+            <li>• <a class="underline hover:text-slate-900" href="https://github.com/MinduliW/Preliminary-Mission-Design-Tool-Public" target="_blank" rel="noopener">PMDT public code repository</a></li>
+          </ul>
+          <p class="mt-4 leading-7 text-slate-800">
+            If you use PMDT to screen tour candidates, consider keeping PMDT’s model fidelity aligned with the downstream optimiser
+            (e.g., perturbation set, eclipse model, and duty cycle) to avoid ranking artefacts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cite -->
+    <section id="cite" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Cite this work</h2>
+
+      <div class="mt-4 rounded-xl border border-slate-200 p-5">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-lg font-semibold">BibTeX</h3>
+          <button id="copyBib" class="rounded-lg border border-slate-200 px-3 py-2 text-sm hover:bg-slate-50">
+            Copy
+          </button>
+        </div>
+
+        <pre class="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-800"><code id="bibtex">@article{Wijayatunga2023PMDT,
+  title   = {Design and guidance of a multi-active debris removal mission},
+  author  = {Wijayatunga, Minduli C. and Armellin, Roberto and Holt, Hugh and Pirovano, Laura and Lidtke, Ashley A.},
+  journal = {Astrodynamics},
+  year    = {2023},
+  doi     = {10.1007/s42064-023-0159-3}
+}</code></pre>
+
+      
+      </div>
+    </section>
+
+    <footer class="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-500">
+      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div>© Minduli W. — PMDT page</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-700" href="#overview">Top</a>
+          <a class="hover:text-slate-700" href="#resources">Resources</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+
+    navToggle?.addEventListener('click', () => {
+      const isHidden = mobileNav.classList.contains('hidden');
+      mobileNav.classList.toggle('hidden', !isHidden);
+      navToggle.setAttribute('aria-expanded', String(isHidden));
+    });
+
+    // Close mobile nav on link click
+    mobileNav?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileNav.classList.add('hidden');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Copy BibTeX
+    document.getElementById('copyBib')?.addEventListener('click', async () => {
+      const bib = document.getElementById('bibtex')?.innerText || '';
+      try {
+        await navigator.clipboard.writeText(bib);
+        const btn = document.getElementById('copyBib');
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = old, 1200);
+      } catch (e) {
+        alert('Copy failed. Please select and copy manually.');
+      }
+    });
+  </script>
+</body>
+</html>
