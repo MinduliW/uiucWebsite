@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Indirect Methods — Scaling Constants for Convergence (JGCD 2023)</title>
+  <meta name="description" content="Exploiting scaling constants (βf, βt) to facilitate convergence of indirect low-thrust trajectory optimisation methods." />
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    section { scroll-margin-top: 92px; }
+    body { overflow-x: hidden; } /* critical */
+    img { max-width: 100%; height: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+  </style>
+</head>
+
+<body class="bg-white text-slate-900">
+  <!-- Top header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto w-full max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="#" class="font-semibold tracking-tight">
+        Indirect Optimisation — Scaling Constants
+      </a>
+
+      <nav class="hidden md:flex items-center gap-5 text-sm text-slate-600">
+        <a class="hover:text-slate-900" href="#overview">Overview</a>
+        <a class="hover:text-slate-900" href="#method">Method</a>
+        <a class="hover:text-slate-900" href="#results">Results</a>
+        <a class="hover:text-slate-900" href="#resources">Resources</a>
+        <a class="hover:text-slate-900" href="#cite">Cite</a>
+      </nav>
+
+      <button id="navToggle" class="md:hidden inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+              aria-label="Open menu" aria-expanded="false">
+        Menu
+      </button>
+    </div>
+
+    <!-- Mobile nav -->
+    <div id="mobileNav" class="md:hidden hidden border-t border-slate-200 bg-white">
+      <div class="mx-auto w-full max-w-5xl px-4 py-3 flex flex-col gap-2 text-sm text-slate-700">
+        <a class="py-1 hover:text-slate-900" href="#overview">Overview</a>
+        <a class="py-1 hover:text-slate-900" href="#method">Method</a>
+        <a class="py-1 hover:text-slate-900" href="#results">Results</a>
+        <a class="py-1 hover:text-slate-900" href="#resources">Resources</a>
+        <a class="py-1 hover:text-slate-900" href="#cite">Cite</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-5xl px-4 py-8">
+    <!-- Title + metadata -->
+    <div class="space-y-3">
+      <h1 class="text-3xl font-semibold tracking-tight md:text-4xl">
+        Exploiting Scaling Constants to Facilitate the Convergence of Indirect Trajectory Optimisation Methods
+      </h1>
+
+      <div class="text-sm text-slate-700 space-y-1">
+        <div><span class="font-medium">Authors:</span> Minduli C. Wijayatunga, Roberto Armellin, Laura Pirovano</div>
+        <div><span class="font-medium">Venue:</span> <em>Journal of Guidance, Control, and Dynamics</em> (Engineering Note), Vol. 46, No. 5, May 2023</div>
+        <div><span class="font-medium">DOI:</span> 10.2514/1.G007091</div>
+        <div class="text-slate-500">
+          Indirect optimal control • Low-thrust • Continuation • EO→FO / EO→TO transitions • J2 + eclipses
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-2 pt-2">
+        <!-- Put your PDF next to this HTML as paper.pdf (recommended) -->
+        <a class="inline-flex items-center justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+           href="https://arc.aiaa.org/doi/10.2514/1.G007091" target="_blank" rel="noopener">
+          Paper
+        </a>
+
+        <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+           href="#cite">
+          BibTeX
+        </a>
+
+        <!-- Optional -->
+        <!-- <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+           href="https://github.com/your-repo" target="_blank" rel="noopener">Code</a> -->
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <section id="overview" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Overview</h2>
+
+      <div class="mt-4 grid gap-4 md:grid-cols-3">
+        <div class="md:col-span-2 rounded-xl border border-slate-200 p-5">
+          <p class="leading-7 text-slate-800">
+            Indirect (Pontryagin-based) methods can be extremely efficient and accurate for low-thrust trajectory
+            optimisation, but in practice they are often bottlenecked by convergence sensitivity to the initial costate guess
+            and discontinuities in bang–bang structures.
+          </p>
+          <p class="mt-3 leading-7 text-slate-800">
+            This note proposes a practical continuation strategy that uses <span class="font-medium">scaling constants</span>
+            to transition from an <span class="font-medium">energy-optimal</span> (EO) solution into
+            <span class="font-medium">fuel-optimal</span> (FO) and <span class="font-medium">time-optimal</span> (TO) problems.
+            The goal is to obtain a “good enough” path for the optimiser to converge quickly, even when perturbations and eclipses are present.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-5 bg-slate-50">
+          <div class="text-sm font-semibold text-slate-900">What you get</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-700">
+            <li>• A simple EO→FO mapping via \(\beta_f\)</li>
+            <li>• A simple EO→TO mapping via \(\beta_t\)</li>
+            <li>• Fewer iterations / lower residuals in shooting solves</li>
+            <li>• Demonstrations across heliocentric + geocentric cases</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Optional figure (add your own image in ./assets/) -->
+      <figure class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="./assets/fig_overview.png" alt="Overview figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Optional: add a representative figure from the paper (save as <code>assets/fig_overview.png</code>).
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- Method -->
+    <section id="method" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Method</h2>
+
+      <div class="mt-4 space-y-4">
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">1) Solve an Energy-Optimal (EO) problem as the “bridge”</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            The EO problem is typically smoother than FO/TO and is used to obtain a robust initial guess for costates.
+            Conceptually:
+          </p>
+          <div class="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-800">
+            <div class="text-sm">
+              \[
+                \min_{\mathbf{u}(\cdot)} J_E \;\;=\;\; \int_{t_0}^{t_1} \|\mathbf{u}(t)\|^2 \, dt
+                \quad \text{s.t. dynamics and boundary conditions.}
+              \]
+            </div>
+          </div>
+          <p class="mt-3 leading-7 text-slate-800">
+            The EO solution provides a stable starting point (state + costates + switching structure cues) to initialise harder problems.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">2) EO → Fuel-Optimal (FO) using \(\beta_f\)</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            Fuel-optimal control tends toward bang–bang behaviour and can be difficult for indirect shooting methods without a good initialisation.
+            Introduce a positive scaling constant \(\beta_f\) in the FO objective to promote a convenient thrust profile during the transition from EO:
+          </p>
+          <div class="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-800">
+            <div class="text-sm">
+              \[
+                \min_{\mathbf{u}(\cdot)} J_F \;\;=\;\; \beta_f \int_{t_0}^{t_1} \|\mathbf{u}(t)\| \, dt
+              \]
+            </div>
+          </div>
+          <p class="mt-3 leading-7 text-slate-800">
+            In this work, \(\beta_f\) is selected from the EO solution (via the EO-derived switching structure) so the continuation lands in a region
+            where the FO shooting method converges with fewer iterations.
+          </p>
+        </div>
+
+        
+
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">3) EO → Time-Optimal (TO) using \(\beta_t\)</h3>
+          <p class="mt-2 leading-7 text-slate-800">
+            For time-optimal problems, an EO solve with a free final time can provide a strong initial guess for flight time and costates.
+            A constant scaling factor \(\beta_t\) is used to reduce residuals and improve convergence:
+          </p>
+          <div class="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-800">
+            <div class="text-sm">
+              \[
+                \min_{\mathbf{u}(\cdot),\, t_1} J_T \;\;=\;\; \beta_t \int_{t_0}^{t_1} 1 \, dt
+                \;=\; \beta_t (t_1 - t_0).
+              \]
+            </div>
+          </div>
+          <p class="mt-3 leading-7 text-slate-800">
+            This EO-initialised continuation can be applied with Keplerian dynamics, and extended to perturbations (e.g., \(J_2\)) and eclipses.
+          </p>
+        </div>
+
+        <!-- =========================
+     EO-derived switching structure
+     ========================= -->
+<section id="switching" class="mt-10">
+  <h2 class="text-2xl font-semibold tracking-tight">EO-derived switching structure</h2>
+
+  <div class="mt-4 grid gap-4 md:grid-cols-3">
+    <div class="md:col-span-2 rounded-xl border border-slate-200 p-5">
+      <p class="leading-7 text-slate-800">
+        A practical reason the energy-optimal (EO) problem is a useful “bridge” is that it reveals a
+        <span class="font-medium">proxy switching structure</span> that closely resembles the on/off pattern that appears
+        in fuel-optimal (FO) and time-optimal (TO) solutions.
+        We use this EO-derived structure to initialise the indirect shooting solve and to choose the scaling constants
+        \( \beta_f \) and \( \beta_t \) so the continuation lands in a region where the solver converges reliably.
+      </p>
+
+      <div class="mt-4 rounded-xl bg-slate-50 border border-slate-200 p-4 text-slate-800">
+        <div class="text-sm">
+          <p class="font-semibold text-slate-900">Key idea</p>
+          <p class="mt-2 leading-7">
+            From the EO solution, construct a “switching indicator” using the EO control magnitude (or an equivalent EO
+            switching function proxy). A simple representation is:
+          </p>
+          \[
+            s_E(t) \;=\; \|\mathbf{u}_E(t)\| \quad \Rightarrow \quad
+            \text{burn at } t \text{ if } s_E(t) \ge s_{\mathrm{th}}.
+          \]
+          <p class="mt-2 leading-7">
+            This produces a time-partition (burn / coast arcs) that can be carried into FO/TO as an initial guess for the
+            bang–bang pattern, including approximate arc boundaries.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-4 leading-7 text-slate-800">
+        In implementation, the EO-derived switching structure is used in two ways:
+      </p>
+      <ol class="mt-2 list-decimal pl-5 space-y-2 leading-7 text-slate-800">
+        <li>
+          <span class="font-medium">Initialise switching times / arc partitioning</span> for the FO/TO shooting solve,
+          reducing sensitivity to the initial costate guess.
+        </li>
+        <li>
+          <span class="font-medium">Set continuation scaling</span> so that the FO/TO costate magnitudes and the resulting
+          switching function are well-conditioned during the transition (via \( \beta_f \) and \( \beta_t \)).
+        </li>
+      </ol>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 p-5 bg-slate-50">
+         <img src="./assets/EOtoFO.png" alt="EO-derived switching structure" class="w-full h-auto object-contain" />
+    <figcaption class="px-4 py-3 text-sm text-slate-600">
+      Determination of \(\beta_f\).
+    </figcaption>
+    </div>
+  </div>
+
+
+</section>
+
+
+        <div class="rounded-xl border border-slate-200 p-5">
+          <h3 class="text-lg font-semibold">Practical “how to use it” (implementation outline)</h3>
+          <ol class="mt-3 space-y-2 leading-7 text-slate-800 list-decimal pl-5">
+            <li>Solve EO to obtain state/costate trajectories and switching cues.</li>
+            <li>Compute \(\beta_f\) from the EO solution, then solve FO using EO as the initial guess.</li>
+            <li>Solve EO with free final time to seed TOF, compute \(\beta_t\), then solve TO.</li>
+            <li>Optionally add \(J_2\) and eclipse modelling, keeping the continuation logic unchanged.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Optional method figure -->
+      <figure class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="./assets/fig_method.png" alt="Method figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Optional: add a method figure (save as <code>assets/fig_method.png</code>).
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Results</h2>
+
+      <div class="mt-4 grid gap-4 md:grid-cols-1">
+        <div class="md:col-span-2 rounded-xl border border-slate-200 p-5">
+          <p class="leading-7 text-slate-800">
+            Headline takeaway: introducing \(\beta_f\) for FO and \(\beta_t\) for TO supports convergence and reduces
+            practical tuning burden compared to “classical” indirect setups (e.g., default unity scaling).
+          </p>
+
+          <div class="mt-4 rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-4 py-3 bg-slate-50 border-b border-slate-200">
+              <div class="text-sm font-semibold text-slate-900">
+                Time- and fuel-optimal solutions (Table 9)
+              </div>
+              <div class="text-xs text-slate-600">
+                Values reproduced into a web-native table.
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="min-w-[720px] w-full text-sm">
+                <thead class="bg-white">
+                  <tr class="text-left text-slate-600 border-b border-slate-200">
+                    <th class="px-4 py-3 font-medium">Mission</th>
+                    <th class="px-4 py-3 font-medium">FO flight time (d)</th>
+                    <th class="px-4 py-3 font-medium">FO fuel (kg)</th>
+                    <th class="px-4 py-3 font-medium">FO compute (s)</th>
+                    <th class="px-4 py-3 font-medium">\(\beta_f\)</th>
+                    <th class="px-4 py-3 font-medium">TO flight time (d)</th>
+                    <th class="px-4 py-3 font-medium">TO fuel (kg)</th>
+                    <th class="px-4 py-3 font-medium">TO compute (s)</th>
+                    <th class="px-4 py-3 font-medium">\(\beta_t\)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3 text-slate-800">Earth → Tempel 1</td>
+                    <td class="px-4 py-3 text-slate-800">420.00</td>
+                    <td class="px-4 py-3 text-slate-800">348.26</td>
+                    <td class="px-4 py-3 text-slate-800">0.114</td>
+                    <td class="px-4 py-3 text-slate-800">0.4781</td>
+                    <td class="px-4 py-3 text-slate-800">328.13</td>
+                    <td class="px-4 py-3 text-slate-800">578.18</td>
+                    <td class="px-4 py-3 text-slate-800">0.208</td>
+                    <td class="px-4 py-3 text-slate-800">21.3486</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 text-slate-800">Earth → Dionysus</td>
+                    <td class="px-4 py-3 text-slate-800">3534.00</td>
+                    <td class="px-4 py-3 text-slate-800">1280.70</td>
+                    <td class="px-4 py-3 text-slate-800">0.425</td>
+                    <td class="px-4 py-3 text-slate-800">0.5389</td>
+                    <td class="px-4 py-3 text-slate-800">1848.89</td>
+                    <td class="px-4 py-3 text-slate-800">1737.53</td>
+                    <td class="px-4 py-3 text-slate-800">0.733</td>
+                    <td class="px-4 py-3 text-slate-800">2.9195</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 text-slate-800">Space debris (geocentric)</td>
+                    <td class="px-4 py-3 text-slate-800">1.00</td>
+                    <td class="px-4 py-3 text-slate-800">11.09</td>
+                    <td class="px-4 py-3 text-slate-800">75.600</td>
+                    <td class="px-4 py-3 text-slate-800">0.4886</td>
+                    <td class="px-4 py-3 text-slate-800">0.654</td>
+                    <td class="px-4 py-3 text-slate-800">15.74</td>
+                    <td class="px-4 py-3 text-slate-800">55.320</td>
+                    <td class="px-4 py-3 text-slate-800">27.1080</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li>• \(\beta_f\) supports EO→FO continuation and helps reduce iterations to convergence.</li>
+            <li>• \(\beta_t\) supports EO-initialised TO solves by reducing residuals / improving convergence behaviour.</li>
+            <li>• Demonstrations include heliocentric transfers and a geocentric debris-to-debris case (with perturbations/eclipses variants discussed).</li>
+          </ul>
+        </div>
+
+       
+      </div>
+
+      <!-- Optional results figure -->
+        <div class="rounded-xl border border-slate-200 p-5 bg-slate-50">
+          <div class="text-sm font-semibold text-slate-900">Results</div>
+           <figure class="mt-6 overflow-hidden border border-slate-200 bg-slate-50">
+        <img src="./assets/temp1.png" alt="Results figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Fuel optimal trajectory from Earth to Tempel 1
+        </figcaption>
+
+           <figure class="mt-6 overflow-hidden border border-slate-200 bg-slate-50">
+        <img src="./assets/temp2time.png" alt="Results figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Time optimal trajectory from Earth to Tempel 1
+        </figcaption>
+      </figure>
+
+        <figure class="mt-6 overflow-hidden border border-slate-200 bg-slate-50">
+        <img src="./assets/goefuel.png" alt="Results figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Fuel optimal geocentric trajectory with J2 and eclipses
+        </figcaption>
+
+           <figure class="mt-6 overflow-hidden border border-slate-200 bg-slate-50">
+        <img src="./assets/geotime.png" alt="Results figure" class="w-full h-auto object-contain" />
+        <figcaption class="px-4 py-3 text-sm text-slate-600">
+          Time optimal geocentric trajectory with J2 and eclipses
+        </figcaption>
+      </figure>
+          
+          
+        </div>
+
+
+    
+
+    <!-- Cite -->
+    <section id="cite" class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-tight">Cite this work</h2>
+
+      <div class="mt-4 rounded-xl border border-slate-200 p-5">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-lg font-semibold">BibTeX</h3>
+          <button id="copyBib" class="rounded-lg border border-slate-200 px-3 py-2 text-sm hover:bg-slate-50">
+            Copy
+          </button>
+        </div>
+
+        <pre class="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-800"><code id="bibtex">@article{Wijayatunga2023ScalingConstants,
+  title   = {Exploiting Scaling Constants to Facilitate the Convergence of Indirect Trajectory Optimization Methods},
+  author  = {Wijayatunga, Minduli C. and Armellin, Roberto and Pirovano, Laura},
+  journal = {Journal of Guidance, Control, and Dynamics},
+  volume  = {46},
+  number  = {5},
+  pages   = {958--969},
+  year    = {2023},
+  doi     = {10.2514/1.G007091}
+}</code></pre>
+
+        <p class="mt-3 text-sm text-slate-600">
+          If you prefer, swap the citation key or adjust page ranges to match your preferred bibliography format.
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-500">
+      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div>© Minduli W. — Indirect methods scaling constants page</div>
+        <div class="flex gap-4">
+          <a class="hover:text-slate-700" href="#overview">Top</a>
+          <a class="hover:text-slate-700" href="#resources">Resources</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+
+    navToggle?.addEventListener('click', () => {
+      const isHidden = mobileNav.classList.contains('hidden');
+      mobileNav.classList.toggle('hidden', !isHidden);
+      navToggle.setAttribute('aria-expanded', String(isHidden));
+    });
+
+    // Close mobile nav on link click
+    mobileNav?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileNav.classList.add('hidden');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Copy BibTeX
+    document.getElementById('copyBib')?.addEventListener('click', async () => {
+      const bib = document.getElementById('bibtex')?.innerText || '';
+      try {
+        await navigator.clipboard.writeText(bib);
+        const btn = document.getElementById('copyBib');
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = old, 1200);
+      } catch (e) {
+        alert('Copy failed. Please select and copy manually.');
+      }
+    });
+  </script>
+</body>
+</html>
