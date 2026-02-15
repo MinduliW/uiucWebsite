@@ -1,451 +1,544 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": "https://lab.minduliw.com/#researchers",
-    "name": "Minduli Wijayatunga",
-    "url": "https://lab.minduliw.com/",
-    "image": "https://static.wixstatic.com/media/17cfa5_1d76544a7cd5425b97c49e8e2ad46028~mv2.jpeg",
-    "jobTitle": "Assistant Professor",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "University of Illinois Urbana-Champaign",
-      "url": "https://illinois.edu/"
-    },
-    "worksFor": {
-      "@type": "Organization",
-      "name": "University of Illinois Urbana-Champaign",
-      "url": "https://illinois.edu/"
-    },
-    "sameAs": [
-      "https://scholar.google.com/citations?user=sFVzZk4AAAAJ&hl=en&oi=ao",
-      "https://orcid.org/my-orcid?orcid=0000-0003-0320-7878",
-      "https://www.linkedin.com/in/minduli/",
-      "https://github.com/MinduliW",
-      "https://aerospace.illinois.edu/directory/profile/minduli"
-      "https://www.forbes.com/profile/minduli-wijayatunga/"
-    ],
-    "knowsAbout": [
-      "Spacecraft rendezvous and proximity operations",
-      "Guidance, navigation and control",
-      "Trajectory optimization",
-      "Space sustainability"
-    ]
-  }
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","@id":"https://lab.minduliw.com/#researchers","name":"Minduli Wijayatunga","url":"https://lab.minduliw.com/","image":"https://static.wixstatic.com/media/17cfa5_1d76544a7cd5425b97c49e8e2ad46028~mv2.jpeg","jobTitle":"Assistant Professor","affiliation":{"@type":"Organization","name":"University of Illinois Urbana-Champaign","url":"https://illinois.edu/"},"worksFor":{"@type":"Organization","name":"University of Illinois Urbana-Champaign","url":"https://illinois.edu/"},"sameAs":["https://scholar.google.com/citations?user=sFVzZk4AAAAJ&hl=en&oi=ao","https://orcid.org/my-orcid?orcid=0000-0003-0320-7878","https://www.linkedin.com/in/minduli/","https://github.com/MinduliW","https://aerospace.illinois.edu/directory/profile/minduli","https://www.forbes.com/profile/minduli-wijayatunga/"],"knowsAbout":["Spacecraft rendezvous and proximity operations","Guidance, navigation and control","Trajectory optimization","Space sustainability"]}
   </script>
-
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SSA-Lab @ UIUC — Space Sustainability & Autonomy</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SSA-Lab @ UIUC &mdash; Space Sustainability &amp; Autonomy</title>
   <meta name="description" content="Developing intelligent, safe, and sustainable autonomous systems for space exploration, space debris removal, and proximity operations."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════ CSS RESET & VARS ═══════ */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg-deep:#040810;--bg-primary:#060d1b;--bg-card:#0a1628;--bg-elevated:#0d1a30;
+      --accent-blue:#3b82f6;--accent-cyan:#22d3ee;--accent-teal:#14b8a6;
+      --accent-orange:#f97316;--accent-violet:#8b5cf6;--accent-rose:#f43f5e;
+      --gradient-brand:linear-gradient(135deg,var(--accent-blue) 0%,var(--accent-cyan) 50%,var(--accent-teal) 100%);
+      --text-primary:#e8edf5;--text-secondary:#8b99b0;--text-muted:#5a6a82;
+      --border-subtle:rgba(255,255,255,0.06);--border-hover:rgba(59,130,246,0.3);
+      --glow-blue:rgba(59,130,246,0.15);
+      --font-display:'Outfit',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'Space Mono',monospace;
+      --max-w:1180px;--radius-sm:8px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;
+      --ease-out:cubic-bezier(0.16,1,0.3,1);
+    }
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--font-body);font-size:16px;line-height:1.65;overflow-x:hidden}
+    .container{max-width:var(--max-w);margin:0 auto;padding:0 1.5rem}
+    ::selection{background:rgba(59,130,246,.3);color:#fff}
+
+    /* ═══════ CURSOR GLOW ═══════ */
+    .cursor-glow{position:fixed;width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:9999;background:radial-gradient(circle,rgba(59,130,246,.06) 0%,transparent 70%);transform:translate(-50%,-50%)}
+
+    /* ═══════ GRAIN OVERLAY ═══════ */
+    body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    /* ═══════ HEADER ═══════ */
+    .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(4,8,16,0.65);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--border-subtle);transition:background .3s,box-shadow .3s}
+    .site-header.scrolled{background:rgba(4,8,16,0.88);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+    .brand{display:flex;align-items:center;gap:0.75rem;text-decoration:none;color:var(--text-primary)}
+    .brand-logo{width:38px;height:38px;border-radius:10px;background:var(--gradient-brand);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:0.75rem;color:var(--bg-deep);letter-spacing:-0.02em}
+    .brand-text{font-family:var(--font-display);font-weight:700;font-size:1.05rem;letter-spacing:-0.02em}
+    .brand-text span{color:var(--text-secondary);font-weight:400}
+    .nav{display:flex;align-items:center;gap:0.25rem}
+    .nav a{color:var(--text-secondary);text-decoration:none;font-size:0.875rem;font-weight:500;padding:0.5rem 0.75rem;border-radius:var(--radius-sm);transition:color .2s,background .2s;position:relative}
+    .nav a:hover,.nav a.active{color:var(--text-primary);background:rgba(255,255,255,0.05)}
+    .nav a.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:2px;background:var(--gradient-brand)}
+    .nav-toggle{display:none;background:none;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);width:42px;height:42px;cursor:pointer;font-size:1.25rem;transition:border-color .2s}
+
+    /* ═══════ HERO ═══════ */
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:8rem 0 6rem;overflow:hidden}
+    .hero-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.1;animation:blob-float 22s ease-in-out infinite}
+    .hero-blob.b1{width:700px;height:700px;background:var(--accent-blue);top:-20%;right:-10%}
+    .hero-blob.b2{width:500px;height:500px;background:var(--accent-cyan);bottom:-10%;left:-5%;animation-delay:-7s}
+    .hero-blob.b3{width:400px;height:400px;background:var(--accent-violet);top:30%;left:40%;animation-delay:-14s}
+    @keyframes blob-float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.05)}66%{transform:translate(-20px,20px) scale(.95)}}
+    .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.03) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black,transparent)}
+    .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;position:relative;z-index:1}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;border-radius:100px;border:1px solid rgba(59,130,246,.2);background:rgba(59,130,246,0.08);font-size:0.8rem;font-weight:500;color:var(--accent-cyan);margin-bottom:1.5rem;font-family:var(--font-mono);letter-spacing:0.02em;animation:fade-up .8s var(--ease-out) both .2s}
+    .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-teal);position:relative}
+    .hero-badge .dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent-teal);animation:ping 2s ease-out infinite;opacity:0}
+    @keyframes ping{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.2);opacity:0}}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2.5rem,4.5vw,4rem);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:0.75rem;animation:fade-up .9s var(--ease-out) both .3s}
+    .hero h1 .gradient-text{background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-tagline{font-family:var(--font-display);font-size:1.35rem;font-weight:500;color:var(--text-secondary);margin-bottom:1.5rem;animation:fade-up .9s var(--ease-out) both .4s}
+    .hero-tagline .rotating-word{display:inline-block;color:var(--accent-cyan);font-weight:700;min-width:8ch;transition:opacity .3s,transform .3s,filter .3s}
+    .hero-tagline .rotating-word.is-changing{opacity:0;transform:translateY(6px);filter:blur(4px)}
+    .hero-lead{font-size:1.1rem;color:var(--text-secondary);max-width:50ch;line-height:1.7;margin-bottom:2rem;animation:fade-up .9s var(--ease-out) both .5s}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fade-up .9s var(--ease-out) both .6s}
+    @keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 1.5rem;border-radius:var(--radius-md);font-family:var(--font-body);font-size:0.95rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:transform .2s var(--ease-out),box-shadow .3s}
+    .btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+    .btn-primary{background:var(--gradient-brand);color:var(--bg-deep);box-shadow:0 4px 20px rgba(59,130,246,0.25)}
+    .btn-primary:hover{box-shadow:0 8px 32px rgba(59,130,246,0.35)}
+    .btn-ghost{background:transparent;color:var(--text-primary);border:1px solid rgba(255,255,255,0.12)}
+    .btn-ghost:hover{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.2)}
+    .btn-sm{padding:0.55rem 1rem;font-size:0.85rem;border-radius:var(--radius-sm)}
+
+    /* Hero visual */
+    .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;animation:hero-img-in 1.2s var(--ease-out) both .5s}
+    .hero-visual img{width:100%;max-width:520px;height:auto;border-radius:var(--radius-xl);border:1px solid var(--border-subtle);box-shadow:0 32px 80px rgba(0,0,0,0.5)}
+    .hero-visual::before{content:'';position:absolute;inset:-30px;background:radial-gradient(ellipse at center,rgba(59,130,246,0.1),transparent 70%);z-index:-1}
+    @keyframes hero-img-in{from{opacity:0;transform:translateX(30px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+    /* Forbes badge on hero image */
+    .forbes-float{position:absolute;bottom:-14px;left:16px;z-index:3;background:var(--bg-card);border:1px solid rgba(249,115,22,.3);border-radius:var(--radius-md);padding:.6rem 1rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 12px 32px rgba(0,0,0,.45);animation:badge-pop 1s var(--ease-out) both 1.2s}
+    .forbes-float .fi{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#f59e0b,#f97316);display:grid;place-items:center;font-weight:800;font-size:.7rem;color:#000;font-family:var(--font-display)}
+    .forbes-float .ft{font-size:.78rem;font-weight:600;line-height:1.3}
+    .forbes-float .ft span{color:var(--accent-orange);display:block;font-size:.65rem;font-weight:500;font-family:var(--font-mono)}
+    @keyframes badge-pop{from{opacity:0;transform:scale(.85) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+    /* Hero stats */
+    .hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border-subtle);animation:fade-up .9s var(--ease-out) both .7s}
+    .hero-stat-value{font-family:var(--font-display);font-size:1.75rem;font-weight:800;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+    .hero-stat-label{font-size:0.8rem;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:0.08em}
+
+    /* ═══════ TICKER ═══════ */
+    .ticker{border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle);background:rgba(6,13,27,.6);overflow:hidden;padding:.8rem 0}
+    .ticker-track{display:flex;gap:3rem;animation:ticker-scroll 45s linear infinite;width:max-content}
+    .ticker-item{display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-size:.85rem;font-weight:500;color:var(--text-secondary)}
+    .ticker-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .td-blue{background:var(--accent-blue)}.td-cyan{background:var(--accent-cyan)}.td-teal{background:var(--accent-teal)}.td-orange{background:var(--accent-orange)}.td-violet{background:var(--accent-violet)}
+    @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* ═══════ ANIMATED STATS BAR ═══════ */
+    .stats-bar{padding:4rem 0;position:relative}
+    .stats-bar::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(59,130,246,.03),transparent);pointer-events:none}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .stat-card{text-align:center;padding:2rem 1rem;border-radius:var(--radius-lg);border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02);transition:all .3s var(--ease-out)}
+    .stat-card:hover{border-color:var(--border-hover);background:rgba(59,130,246,.04);transform:translateY(-2px)}
+    .stat-num{font-family:var(--font-display);font-size:2.5rem;font-weight:800;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+    .stat-label{font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-top:.3rem}
+
+    /* ═══════ DEBRIS BANNER ═══════ */
+    .debris-banner{padding:4rem 0;border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle);background:linear-gradient(180deg,rgba(34,211,238,.03),transparent)}
+    .debris-content{text-align:center;max-width:80ch;margin:0 auto 2rem}
+    .debris-content p{font-size:1.05rem;color:var(--text-secondary);line-height:1.8}
+    .debris-content strong{color:var(--accent-cyan);font-weight:600}
+    .debris-video-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem}
+    .debris-video{max-width:460px;width:100%;border-radius:var(--radius-lg);border:1px solid var(--border-subtle);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+
+    /* ═══════ SECTIONS ═══════ */
+    .section{position:relative;padding:6rem 0;z-index:1}
+    .section-label{font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent-blue);margin-bottom:0.75rem;display:flex;align-items:center;gap:.5rem}
+    .section-label::before{content:'';width:20px;height:2px;background:var(--gradient-brand);border-radius:2px}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.75rem,3vw,2.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.15;margin-bottom:1rem}
+    .section-desc{color:var(--text-secondary);max-width:60ch;font-size:1.05rem;line-height:1.7}
+    .section-header{margin-bottom:3.5rem}
+    .section-header.centered{text-align:center;display:flex;flex-direction:column;align-items:center}
+
+    /* About */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .about-text p{color:var(--text-secondary);margin-bottom:1rem;line-height:1.8}
+    .about-img{border-radius:var(--radius-lg);border:1px solid var(--border-subtle);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+    .about-img img{display:block;width:100%;height:auto}
+    .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+    .pillar-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:1.75rem;transition:transform .3s var(--ease-out),border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+    .pillar-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-brand);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
+    .pillar-card:hover{transform:translateY(-4px);border-color:var(--border-hover);box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+    .pillar-card:hover::before{transform:scaleX(1)}
+    .pillar-icon{width:48px;height:48px;border-radius:var(--radius-md);display:grid;place-items:center;font-size:1.5rem;margin-bottom:1rem}
+    .pillar-icon.adr{background:rgba(59,130,246,0.12)}.pillar-icon.oos{background:rgba(34,211,238,0.12)}.pillar-icon.sus{background:rgba(20,184,166,0.12)}
+    .pillar-card h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin-bottom:0.5rem}
+    .pillar-card p{color:var(--text-secondary);font-size:0.9rem;line-height:1.65}
+
+    /* News */
+    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
+    .news-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:1.75rem;display:flex;flex-direction:column;transition:transform .3s var(--ease-out),border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+    .news-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gradient-brand);opacity:0;transition:opacity .3s}
+    .news-card:hover{transform:translateY(-3px);border-color:var(--border-hover);box-shadow:0 16px 40px rgba(0,0,0,0.3)}
+    .news-card:hover::before{opacity:1}
+    .news-date{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.06em}
+    .news-card h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:0.6rem;line-height:1.35}
+    .news-card p{color:var(--text-secondary);font-size:0.9rem;line-height:1.65;flex-grow:1}
+    .news-tag{display:inline-block;margin-top:1rem;padding:0.25rem 0.65rem;border-radius:100px;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+    .news-tag.award{background:rgba(249,115,22,0.12);color:var(--accent-orange)}
+    .news-tag.position{background:rgba(59,130,246,0.12);color:var(--accent-blue)}
+    .news-tag.paper{background:rgba(34,211,238,0.12);color:var(--accent-cyan)}
+    .news-tag.competition{background:rgba(139,92,246,0.12);color:var(--accent-violet)}
+
+    /* Researcher */
+    .researcher-card{display:grid;grid-template-columns:160px 1fr;gap:2rem;align-items:start;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:2rem;transition:border-color .3s,box-shadow .3s}
+    .researcher-card:hover{border-color:var(--border-hover);box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+    .researcher-avatar{width:160px;height:160px;border-radius:var(--radius-lg);object-fit:cover;border:2px solid var(--border-subtle)}
+    .researcher-info h3{font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:0.3rem}
+    .researcher-role{color:var(--accent-cyan);font-weight:600;font-size:0.95rem;margin-bottom:1rem}
+    .researcher-positions{list-style:none;margin-bottom:1.25rem}
+    .researcher-positions li{color:var(--text-secondary);font-size:0.9rem;padding:0.25rem 0 .25rem 1.25rem;position:relative}
+    .researcher-positions li::before{content:'';position:absolute;left:0;top:50%;width:6px;height:6px;border-radius:50%;background:var(--accent-blue);transform:translateY(-50%)}
+    .researcher-interests{font-size:0.88rem;color:var(--text-muted);line-height:1.7}
+    .researcher-interests strong{color:var(--text-secondary)}
+
+    /* Projects */
+    .projects-subsection{margin-bottom:4rem}
+    .subsection-title{font-family:var(--font-display);font-size:1.35rem;font-weight:700;margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:0.75rem}
+    .subsection-title .badge-count{font-size:0.75rem;background:rgba(59,130,246,0.12);color:var(--accent-blue);padding:0.2rem 0.6rem;border-radius:100px;font-weight:600}
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .project-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s var(--ease-out),border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
+    .project-card:hover{transform:translateY(-4px);border-color:var(--border-hover);box-shadow:0 20px 50px rgba(0,0,0,0.35)}
+    .project-card-img{width:100%;height:170px;object-fit:cover;border-bottom:1px solid var(--border-subtle)}
+    .project-card-body{padding:1.25rem;flex-grow:1;display:flex;flex-direction:column}
+    .project-card h4{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:0.5rem;line-height:1.35}
+    .project-card p{color:var(--text-secondary);font-size:0.88rem;line-height:1.6;flex-grow:1}
+    .project-card .btn{margin-top:1rem;align-self:flex-start}
+
+    /* Publications */
+    .pubs-group-title{font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin:2.5rem 0 1rem;display:flex;align-items:center;gap:0.75rem}
+    .pubs-group-title::after{content:'';flex:1;height:1px;background:var(--border-subtle)}
+    .pub-list{list-style:none}
+    .pub-item{padding:1.25rem 0;border-bottom:1px solid var(--border-subtle)}
+    .pub-item:last-child{border-bottom:none}
+    .pub-title-link{color:var(--text-primary);text-decoration:none;font-weight:600;font-size:0.95rem;line-height:1.5;transition:color .2s}
+    .pub-title-link:hover{color:var(--accent-cyan)}
+    .pub-meta{color:var(--text-muted);font-size:0.85rem;margin-top:0.3rem}
+    .pub-meta em{color:var(--text-secondary);font-style:italic}
+    .pub-new{display:inline-block;margin-left:.5rem;font-size:.65rem;font-weight:700;background:rgba(244,63,94,.15);color:var(--accent-rose);padding:.1rem .45rem;border-radius:100px;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em}
+
+    /* Positions */
+    .positions-section{background:linear-gradient(180deg,rgba(59,130,246,0.04),transparent)}
+    .position-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+    .position-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:2rem;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s var(--ease-out)}
+    .position-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-brand)}
+    .position-card:hover{border-color:var(--border-hover);box-shadow:0 16px 48px rgba(0,0,0,0.3);transform:translateY(-3px)}
+    .position-card h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin-bottom:0.75rem}
+    .position-card>p{color:var(--text-secondary);font-size:0.9rem;line-height:1.65}
+    .position-card .requirements{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-subtle)}
+    .position-card .requirements span{font-size:0.78rem;font-weight:600;color:var(--accent-blue);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.4rem}
+    .position-card .requirements p{font-size:0.85rem;color:var(--text-secondary)}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:3rem;align-items:start}
+    .contact-form{display:flex;flex-direction:column;gap:0.75rem;max-width:560px}
+    .form-group{display:flex;flex-direction:column;gap:0.4rem}
+    .form-group label{font-size:0.85rem;font-weight:600;color:var(--text-secondary)}
+    .form-group input,.form-group textarea{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-primary);padding:0.85rem 1rem;font-family:var(--font-body);font-size:0.95rem;outline:none;transition:border-color .2s,box-shadow .2s}
+    .form-group input:focus,.form-group textarea:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px var(--glow-blue)}
+    .form-group textarea{resize:vertical;min-height:120px}
+    .contact-info{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.5rem}
+    .contact-email a{color:var(--accent-cyan);text-decoration:none;font-family:var(--font-display);font-size:1.2rem;font-weight:600;transition:color .2s}
+    .contact-email a:hover{color:var(--accent-blue)}
+    .social-links{display:flex;gap:0.75rem;list-style:none}
+    .social-link{display:grid;place-items:center;width:46px;height:46px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);text-decoration:none;transition:border-color .2s,color .2s,transform .2s,box-shadow .2s}
+    .social-link:hover{border-color:var(--accent-blue);color:var(--accent-blue);transform:translateY(-2px);box-shadow:0 4px 16px rgba(59,130,246,0.2)}
+    .social-link svg{width:20px;height:20px;fill:currentColor}
+
+    /* Footer */
+    .site-footer{border-top:1px solid var(--border-subtle);padding:2.5rem 0;background:var(--bg-deep)}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-nav{display:flex;gap:1.25rem;flex-wrap:wrap}
+    .footer-nav a{color:var(--text-muted);text-decoration:none;font-size:0.85rem;transition:color .2s}
+    .footer-nav a:hover{color:var(--text-primary)}
+    .footer-copy{color:var(--text-muted);font-size:0.85rem}
+
+    /* Reveal animations */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+    .reveal.is-visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+
+    /* Responsive */
+    @media(max-width:1024px){
+      .hero-grid{grid-template-columns:1fr;gap:2.5rem}
+      .hero-visual{order:-1}.hero-visual img{max-width:400px;margin:0 auto}
+      .about-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:repeat(2,1fr)}
+      .pillars{grid-template-columns:repeat(2,1fr)}.position-cards{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}
+      .forbes-float{left:50%;transform:translateX(-50%)}
+    }
+    @media(max-width:768px){
+      .nav{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(6,13,27,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle);flex-direction:column;padding:1rem;gap:0.25rem}
+      .nav.open{display:flex}.nav-toggle{display:grid;place-items:center}
+      .project-grid{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}
+      .hero-stats{gap:1.5rem;flex-wrap:wrap}.news-grid{grid-template-columns:1fr}
+      .researcher-card{grid-template-columns:1fr;text-align:center}
+      .researcher-avatar{margin:0 auto}.researcher-positions li{text-align:left}
+      .section{padding:4rem 0}.stats-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:480px){
+      .hero{padding:6rem 0 3rem}.hero-stats{flex-direction:column;gap:1rem}
+      .footer-inner{flex-direction:column;text-align:center}.footer-nav{justify-content:center}
+    }
+  </style>
 </head>
 <body>
-<header class="site-header">
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader">
   <div class="container header-inner">
-    <div class="brand">
-      <span class="brand-acronym">SSA Lab @ UIUC </span>
-    </div>
-    <nav id="nav" class="nav">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#researchers">Researchers</a>
-      <a href="#projects">Research Projects</a>
-      <a href="#publications">Publications</a>
-      <a href="#openpos">Open Positions</a>
-      <a href="#contact">Contact</a>
+    <a href="#home" class="brand">
+      <div class="brand-logo" aria-hidden="true">SSA</div>
+      <div class="brand-text">SSA Lab <span>@ UIUC</span></div>
+    </a>
+    <nav id="nav" class="nav" role="navigation">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#news">News</a><a href="#researchers">Researchers</a><a href="#projects">Projects</a><a href="#publications">Publications</a><a href="#openpos">Positions</a><a href="#contact">Contact</a>
     </nav>
-    <button id="navToggle" class="nav-toggle" aria-label="Open menu">☰</button>
+    <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   </div>
 </header>
 
 <main>
-  <section id="home" class="section hero reveal">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-  <h1>Space Sustainability and Autonomy Lab</h1>
-  <p class="hero-tagline">
-    Space for <span id="spaceWord" class="space-word">good</span>
-  </p>
-  <p class="lead">
-    Developing intelligent, safe, and sustainable autonomous systems for space exploration,
-    space debris removal, and proximity operations.
-  </p>
-  <a class="btn" href="#about">Learn More</a>
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-blob b1" aria-hidden="true"></div>
+  <div class="hero-blob b2" aria-hidden="true"></div>
+  <div class="hero-blob b3" aria-hidden="true"></div>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="hero-badge reveal"><span class="dot"></span>Accepting PhD Students &middot; 2026</div>
+      <h1 class="reveal reveal-delay-1">Space Sustainability<br/><span class="gradient-text">&amp; Autonomy Lab</span></h1>
+      <p class="hero-tagline reveal reveal-delay-2">Space for <span id="rotatingWord" class="rotating-word">good</span></p>
+      <p class="hero-lead reveal reveal-delay-2">Developing intelligent, safe, and sustainable autonomous systems for space exploration, debris removal, and proximity operations at the University of Illinois Urbana-Champaign.</p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a class="btn btn-primary" href="#about">Explore Our Work</a>
+        <a class="btn btn-ghost" href="#openpos">Open Positions &rarr;</a>
+      </div>
+      <!-- <div class="hero-stats reveal reveal-delay-3">
+        <div class="hero-stat"><span class="hero-stat-value" data-target="7">0</span><span class="hero-stat-label">Journal Papers</span></div>
+        <div class="hero-stat"><span class="hero-stat-value" data-target="3" data-suffix="&times;">0</span><span class="hero-stat-label">GTOC Podiums</span></div>
+        <div class="hero-stat"><span class="hero-stat-value" data-target="8" data-suffix="+">0</span><span class="hero-stat-label">Research Projects</span></div>
+      </div> -->
+    </div>
+    <div class="hero-visual reveal reveal-delay-2">
+      <img src="goals.png" alt="SSA Lab research areas"/>
+      <div class="forbes-float"><div class="fi">F</div><div class="ft">Forbes 30 Under 30<span>Transportation &amp; Aerospace &middot; 2026</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true"><div class="ticker-track">
+  <span class="ticker-item"><span class="ticker-dot td-orange"></span>Forbes 30 Under 30 &mdash; Transportation &amp; Aerospace 2026</span>
+  <span class="ticker-item"><span class="ticker-dot td-cyan"></span>New: Meta-RL for Robust Control Barrier Functions in RPO</span>
+  <span class="ticker-item"><span class="ticker-dot td-teal"></span>New: Learning Safety-Guaranteed Non-Greedy CBFs via RL</span>
+  <span class="ticker-item"><span class="ticker-dot td-blue"></span>RL Guidance Paper &mdash; Aerospace Science &amp; Technology 2025</span>
+  <span class="ticker-item"><span class="ticker-dot td-violet"></span>GTOC13 &mdash; 3rd Place with TheAntipodes</span>
+  <span class="ticker-item"><span class="ticker-dot td-cyan"></span>CORTEX &amp; GRASP Frameworks Accepted</span>
+  <span class="ticker-item"><span class="ticker-dot td-orange"></span>Visiting Scientist at MIT 2025&ndash;2026</span>
+  <span class="ticker-item"><span class="ticker-dot td-blue"></span>Joining UIUC Aerospace as Assistant Professor 2026</span>
+  <span class="ticker-item"><span class="ticker-dot td-orange"></span>Forbes 30 Under 30 &mdash; Transportation &amp; Aerospace 2026</span>
+  <span class="ticker-item"><span class="ticker-dot td-cyan"></span>New: Meta-RL for Robust Control Barrier Functions in RPO</span>
+  <span class="ticker-item"><span class="ticker-dot td-teal"></span>New: Learning Safety-Guaranteed Non-Greedy CBFs via RL</span>
+  <span class="ticker-item"><span class="ticker-dot td-blue"></span>RL Guidance Paper &mdash; Aerospace Science &amp; Technology 2025</span>
+  <span class="ticker-item"><span class="ticker-dot td-violet"></span>GTOC13 &mdash; 3rd Place with TheAntipodes</span>
+  <span class="ticker-item"><span class="ticker-dot td-cyan"></span>CORTEX &amp; GRASP Frameworks Accepted</span>
+  <span class="ticker-item"><span class="ticker-dot td-orange"></span>Visiting Scientist at MIT 2025&ndash;2026</span>
+  <span class="ticker-item"><span class="ticker-dot td-blue"></span>Joining UIUC Aerospace as Assistant Professor 2026</span>
+</div></div>
+
+<!-- DEBRIS BANNER -->
+<div class="debris-banner reveal">
+  <div class="container">
+    <div class="debris-content"><p>As of August 2024, more than <strong>140 million</strong> pieces of debris smaller than 1 cm, about <strong>1.2 million</strong> pieces 1&ndash;10 cm, and around <strong>54,000</strong> pieces larger than 10 cm are estimated to orbit Earth. These populations are growing. <br/><em style="color:var(--text-muted);font-size:.85rem">&mdash; ESA Space Debris Report</em></p></div>
+    <div class="debris-video-grid">
+      <video class="debris-video" src="2312_019_BR_012.mp4" autoplay muted loop playsinline data-start-at="18" data-end-at="50" data-playback-rate="2.0"></video>
+      <video class="debris-video" src="2312_019_BR_012.mp4" autoplay muted loop playsinline data-start-at="53" data-end-at="64" data-playback-rate="1.0"></video>
+    </div>
+  </div>
 </div>
-      <div class="hero-art">
-        <img src="goals.png" alt="Background art" />
-      </div>
-    </div>
-  </section>
 
-      <div class="facts">
-        <div>
-          <p>As of August 2024, more than 140 million pieces of debris smaller than 1 cm (0.4 in), about 1.2 million pieces of debris 1–10 cm, and around 54,000 pieces larger than 10 cm (3.9 in) were estimated to be in orbit around the Earth [ESA Space Debris Report].<br/><br/>These populations are growing.</p>
-
-        <div class="debris-visual reveal debris-video-wrap">
-          <div class="debris-video-grid">
-            <video class="debris-video"
-                   src="2312_019_BR_012.mp4"
-                   autoplay muted loop playsinline
-                   data-start-at="18"
-                   data-end-at="50"
-                   data-playback-rate="2.0"></video>
-            <video class="debris-video"
-                   src="2312_019_BR_012.mp4"
-                   autoplay muted loop playsinline
-                   data-start-at="53"
-                   data-end-at="64"
-                   data-playback-rate="1.0"></video>
-          </div>
-        </div>
-        <p></p>
-        </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-    <section id="about" class="section reveal">
-    <div class="container">
-      <div class="section-head">
-        <h2>About</h2>
-        <p>SSA Lab is an academic lab in the Grainger School of Engineering at the University of Illinois, Urbana-Champaign. We focus primarily on solving the space debris problem by addressing critical challenges in missions with rendezvous and proximity operations.</p>
-      </div>
-      <div class="about-grid">
-        <img src="labplan.png" alt="Goals / focus" />
-      </div>
-    </div>
-  </section>
-
-  <section id="researchers" class="section alt reveal">
-    <div class="container">
-      <div class="section-head">
-        <h2>Researchers</h2>
-      </div>
-      <div class="person">
-        <img class="avatar" src="https://static.wixstatic.com/media/17cfa5_1d76544a7cd5425b97c49e8e2ad46028~mv2.jpeg" alt="Minduli Wijayatunga" />
-        <div class="person-body">
-          <h3>Minduli Wijayatunga</h3>
-          <p class="muted">Director/Incoming Assistant Professor at UIUC</p>
-          <p> Adjunct Assistant Professor of Aerospace, UIUC - 2025-2026 </p>
-          <p> Incoming Assistant Professor of Aerospace, UIUC -  2026 </p>
-          <p> Visiting Scientist, MIT - 2025-2026</p>
-          <p> Research Associate, Australian Centre for Field Robotics - 2024-2025.</p>
-          <p> Interests: Rendezvous and Proximity Operations, Astrodynamics, Reinforcement Learning, Multi-Objective Trajectory Optimization, Model Predictive Control, and Convex/Indirect Optimization Methods</p>        </div>
-      </div>
-
-  
-
-
-
- <section id="projects" class="section alt reveal">
+<!-- ABOUT -->
+<section id="about" class="section">
   <div class="container">
-    <div class="section-head">
-      <h2>Research Projects</h2>
+    <div class="section-header reveal"><div class="section-label">About the Lab</div><h2 class="section-title">Solving the space debris problem through autonomy</h2><p class="section-desc">SSA Lab is an academic lab in the Grainger School of Engineering at UIUC. We focus primarily on solving the space debris problem by addressing critical challenges in missions with rendezvous and proximity operations.</p></div>
+    <div class="about-grid">
+      <div class="about-img reveal"><img src="labplan.png" alt="SSA Lab research plan"/></div>
+      <div class="about-text reveal reveal-delay-1"><p>Our work spans the entire lifecycle of in-orbit servicing missions &mdash; from preliminary trajectory design to real-time autonomous guidance during the final approach. We combine classical astrodynamics with modern AI techniques including reinforcement learning, control barrier functions, and convex optimization.</p><p>We collaborate with partners across academia and industry, including MIT, the Australian Centre for Field Robotics, Astroscale, and JPL, to push the boundaries of what's achievable in autonomous space operations.</p></div>
     </div>
-
-      <div class="projects-subsection" id="phd-work">
-           <div class="subsection-head">
-        <h3>PhD Work</h3>
-      </div> 
-       <div class="project-grid">
-
-      <article class="project">
-        <img src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/creative-assets/s-migr/ul/g/8f/5e/reinforcement-learning-figure-1.png" alt="Reinforcement Learning"/>
-        <h4>Reinforcement Learning for Spacecraft Guidance</h4>
-        <p>We developed a robust guidance scheme for far-range rendezvous using reinforcement learning with safety and observability considerations and are looking into other RL applications in space.</p>
-         <a class="btn btn-primary" href="Papers/RLGuidancePaper/index.html" aria-label="Learn more">Learn more</a>
-      </article>
-
-      <article class="project">
-        <img src="indirect.png" alt="Indirect Opt"/>
-        <h4>Improving the convergence of indirect optimization with scaling factors </h4>
-        <p>We developed a method to use scaling factors to connect energy optimal problem to the time optimal and fuel optimal problems to improve convergence.</p>
-         <a class="btn btn-primary" href="Papers/Indirect/index.html" aria-label="Learn more">Learn more</a>
-      </article>
-
-
-
-      <!-- <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_86baebc18930496e91aea1d42c48b937~mv2.png" alt="Multi-Active Debris Removal Tour Design"/>
-        <h4>Multi-Active Debris Removal Tour Design</h4>
-        <p>Working with Astroscale, we developed and studied the feasiblity of a two-spacecraft system for removing multiple tonne class orbital debris per mission.</p>
-        <a class="btn btn-primary" href="#" aria-label="Learn more about Multi-Active Debris Removal Tour Design">Learn more</a>
-      </article> -->
-
-      <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_43a443269b344215825335c454534145~mv2.png" alt="Preliminary Mission Design Tool (PMDT)"/>
-        <h4>Preliminary Mission Design Tool (PMDT)</h4>
-        <p>PMDT generates multi-target, fuel- and time-optimal tours using low-thrust propulsion. It accounts for J2 perturbations, drag, eclipses, and duty cycles. The tool can rapidly compute reference trajectories, providing solutions for multi-target low-thrust tours within seconds. </p>    
-        <a class="btn btn-primary" href="Papers/PMDT/index.html" aria-label="Learn more about Preliminary Mission Design Tool (PMDT)">Learn more</a>
-      </article>
-
-      <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_ea661ad6ef2e48a899dc559ed4fd05d8~mv2.png" alt="Multi-Objective Trajectory Optimization"/>
-        <h4>Global Trajectory Optimization Competitions (GTOCs)</h4>
-        <p> I participate in GTOCs as a team member of the Antipodes, where we develop indirect and convex-based tools for complex trajectory optimization problems. GTOC11 - 3rd Place, GTOC12 -5th Place, GTOC13 - 3rd Place. </p>
-        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Multi-Objective Trajectory Optimization">Learn more</a> -->
-      </article>
-
-
-
-      <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_46374a3ce4424907b8e0080ece132aff~mv2.jpg" alt="Model Predictive Control"/>
-        <h4>Model Predictive Control for Spacecraft Guidance</h4>
-        <p>We developed a convex-based MPC for low thrust transfer trajectory guidance</p>
-        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Model Predictive Control">Learn more</a> -->
-      </article>
-
-        <article class="project">
-        <img src="asteroiddefl.png" alt="Model Predictive Control"/>
-        <h4>Ion beam Deflection for Asteroids </h4>
-        <p>We developed a framework for assessing the feasibility of deflecting hazardous asteroids via ion beams</p>
-        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about Model Predictive Control">Learn more</a> -->
-      </article>
-
-
-   
+    <div class="pillars">
+      <div class="pillar-card reveal reveal-delay-1"><div class="pillar-icon adr">&#x1F6F0;&#xFE0F;</div><h3>Active Debris Removal</h3><p>Real-time detection, optimal trajectory planning, multi-target missions, adaptive guidance, multi-strategy ADR for safe capture and disposal.</p></div>
+      <div class="pillar-card reveal reveal-delay-2"><div class="pillar-icon oos">&#x1F527;</div><h3>On-Orbit Servicing</h3><p>Real-time detection, trajectory planning, multi-target handling, adaptive guidance, safe capture and repair, refuel, and reuse.</p></div>
+      <div class="pillar-card reveal reveal-delay-3"><div class="pillar-icon sus">&#x267B;&#xFE0F;</div><h3>Space Sustainability</h3><p>Sustainable spacecraft design principles prioritizing end-of-life reuse and reducing the long-term debris footprint of space operations.</p></div>
     </div>
-
-    
-      </div>
-
-      <div class="projects-subsection" id="phd-work">
-           <div class="subsection-head">
-        <h3>PostDoc Work</h3>
-      </div> 
-       <div class="project-grid">
-
-      <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_d193bae78d71458a8de4e62503db951c~mv2.png" alt="CORTEX: Convex Optimization for Rendezvous Trajectory Optimization"/>
-        <h4>CORTEX: Convex Optimization for Rendezvous Trajectory Optimization</h4>
-        <p>CORTEX is a sunlight aware, robust convex-tracking scheme for final approach in RPO missions</p>
-        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about CORTEX">Learn more</a> -->
-      </article>
-
-   
-      <article class="project">
-        <img src="https://static.wixstatic.com/media/17cfa5_7096da0c1bd647e59cfadf856b965a12~mv2.jpg" alt="GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning"/>
-        <h4>GRASP: Guidance and Rendezvous for Autonomous Servicing and Planning</h4>
-        <p>We developed the GRASP framework to handle end-to-end transfer and guidance of spacecraft servicing missions.</p>
-        <!-- <a class="btn btn-primary" href="#" aria-label="Learn more about GRASP">Learn more</a> -->
-      </article>
-    </div>
-
-
-   
   </div>
 </section>
 
-  <section id="publications" class="section reveal">
+<!-- NEWS -->
+<section id="news" class="section">
   <div class="container">
-    <div class="section-head left">
-      <h2>Publications</h2>
-      <p>Selected journal and conference papers.</p>
+    <div class="section-header reveal"><div class="section-label">Latest Updates</div><h2 class="section-title">News</h2></div>
+    <div class="news-grid">
+      <div class="news-card reveal reveal-delay-1"><div class="news-date">Feb 2026</div><h3>New Preprint: Meta-RL for Robust CBFs in Spacecraft Proximity Operations</h3><p>A framework learning the full hierarchy of class-K functions in ICCBFs via meta-RL for safer, more fuel-efficient RPO.</p><span class="news-tag paper">arXiv 2602.07335</span></div>
+      <div class="news-card reveal reveal-delay-2"><div class="news-date">Jan 2026</div><h3>New Preprint: Learning Safety-Guaranteed, Non-Greedy CBFs Using RL</h3><p>Two-stage RL framework addressing conservatism and recoverability of ICCBFs for safety-critical spacecraft control.</p><span class="news-tag paper">arXiv 2602.00366</span></div>
+      <div class="news-card reveal reveal-delay-3"><div class="news-date">Dec 2025</div><h3>Forbes 30 Under 30 &mdash; Transportation &amp; Aerospace</h3><p>Minduli named to the Forbes 30 Under 30 list for 2026 for pioneering spacecraft autonomy and debris removal technology.</p><span class="news-tag award">Award</span></div>
+      <div class="news-card reveal reveal-delay-1"><div class="news-date">2026</div><h3>Joining UIUC as Assistant Professor</h3><p>Founding the Space Sustainability and Autonomy Lab in the Department of Aerospace Engineering at UIUC.</p><span class="news-tag position">Appointment</span></div>
+      <div class="news-card reveal reveal-delay-2"><div class="news-date">2025</div><h3>Visiting Scientist at MIT</h3><p>Collaborating with Prof. Richard Linares on advanced autonomy and safety-critical guidance for spacecraft.</p><span class="news-tag position">Collaboration</span></div>
+      <div class="news-card reveal reveal-delay-3"><div class="news-date">2025</div><h3>RL Guidance Paper Published</h3><p>Our paper on robust trajectory design using reinforcement learning with safety and observability considerations published in Aerospace Science &amp; Technology.</p><span class="news-tag paper">Publication</span></div>
+      <div class="news-card reveal reveal-delay-1"><div class="news-date">2024&ndash;25</div><h3>GTOC Podium Finishes</h3><p>As part of TheAntipodes: 3rd place in GTOC11, 5th in GTOC12, and 3rd in GTOC13.</p><span class="news-tag competition">Competition</span></div>
+      <div class="news-card reveal reveal-delay-2"><div class="news-date">2025</div><h3>CORTEX &amp; GRASP Frameworks</h3><p>Two frameworks for autonomous in-orbit servicing accepted for conference presentation.</p><span class="news-tag paper">Publication</span></div>
     </div>
+  </div>
+</section>
 
-    <!-- Journals -->
-    <h3 class="pubs-heading">Journal Articles</h3>
-    <ol class="pubs-list">
-      <li class="pub-item">
-        <a class="pub-title" href="https://linkinghub.elsevier.com/retrieve/pii/S1270963825000689" target="_blank" rel="noopener">
-          Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, R. Armellin, H. Holt — <em>Aerospace Science and Technology</em>, 2025
-        </div>
-      </li>
+<!-- RESEARCHERS -->
+<section id="researchers" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-label">Our Team</div><h2 class="section-title">Researchers</h2></div>
+    <div class="researcher-card reveal">
+      <img class="researcher-avatar" src="https://static.wixstatic.com/media/17cfa5_1d76544a7cd5425b97c49e8e2ad46028~mv2.jpeg" alt="Minduli Wijayatunga"/>
+      <div class="researcher-info">
+        <h3>Minduli Wijayatunga</h3>
+        <div class="researcher-role">Director / Incoming Assistant Professor &middot; Forbes 30 Under 30</div>
+        <ul class="researcher-positions">
+          <li>Incoming Assistant Professor of Aerospace, UIUC &mdash; 2026</li>
+          <li>Adjunct Assistant Professor of Aerospace, UIUC &mdash; 2025&ndash;2026</li>
+          <li>Visiting Scientist, MIT &mdash; 2025&ndash;2026</li>
+          <li>Research Associate, Australian Centre for Field Robotics &mdash; 2024&ndash;2025</li>
+        </ul>
+        <p class="researcher-interests"><strong>Interests:</strong> Rendezvous &amp; Proximity Operations, Astrodynamics, Reinforcement Learning, Control Barrier Functions, Multi-Objective Trajectory Optimization, Model Predictive Control, Convex &amp; Indirect Optimization</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <li class="pub-item">
-        <a class="pub-title" href="https://link.springer.com/article/10.1007/s42064-024-0219-3" target="_blank" rel="noopener">
-          GTOC12: Results from TheAntipodes
-        </a>
-        <div class="pub-meta">
-          R. Armellin, A. Bellome, X. Fu, H. Holt, C. Parigini, M. Wijayatunga, J. Yarndley — <em>Astrodynamics</em>, 2025
-        </div>
-      </li>
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-label">What We Work On</div><h2 class="section-title">Research Projects</h2></div>
+    <div class="projects-subsection"><div class="subsection-title reveal">PhD Work <span class="badge-count">6 projects</span></div>
+    <div class="project-grid">
+      <article class="project-card reveal reveal-delay-1"><img class="project-card-img" src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/creative-assets/s-migr/ul/g/8f/5e/reinforcement-learning-figure-1.png" alt="RL"/><div class="project-card-body"><h4>Reinforcement Learning for Spacecraft Guidance</h4><p>A robust guidance scheme for far-range rendezvous using RL with safety and observability considerations.</p><a class="btn btn-ghost btn-sm" href="Papers/RLGuidancePaper/index.html">Learn more &rarr;</a></div></article>
+      <article class="project-card reveal reveal-delay-2"><img class="project-card-img" src="indirect.png" alt="Indirect Opt"/><div class="project-card-body"><h4>Improving Indirect Optimization Convergence</h4><p>Scaling factors to connect energy-optimal to time-optimal and fuel-optimal problems for better convergence.</p><a class="btn btn-ghost btn-sm" href="Papers/Indirect/index.html">Learn more &rarr;</a></div></article>
+      <article class="project-card reveal reveal-delay-3"><img class="project-card-img" src="https://static.wixstatic.com/media/17cfa5_43a443269b344215825335c454534145~mv2.png" alt="PMDT"/><div class="project-card-body"><h4>Preliminary Mission Design Tool (PMDT)</h4><p>Generates multi-target, fuel- and time-optimal tours using low-thrust propulsion with J2, drag, eclipses, and duty cycles.</p><a class="btn btn-ghost btn-sm" href="Papers/PMDT/index.html">Learn more &rarr;</a></div></article>
+      <article class="project-card reveal reveal-delay-1"><img class="project-card-img" src="https://static.wixstatic.com/media/17cfa5_ea661ad6ef2e48a899dc559ed4fd05d8~mv2.png" alt="GTOC"/><div class="project-card-body"><h4>Global Trajectory Optimization Competitions</h4><p>Team Antipodes &mdash; indirect and convex-based tools. GTOC11: 3rd, GTOC12: 5th, GTOC13: 3rd.</p></div></article>
+      <article class="project-card reveal reveal-delay-2"><img class="project-card-img" src="https://static.wixstatic.com/media/17cfa5_46374a3ce4424907b8e0080ece132aff~mv2.jpg" alt="MPC"/><div class="project-card-body"><h4>Model Predictive Control for Spacecraft Guidance</h4><p>Convex-based MPC for low-thrust transfer trajectory guidance with real-time performance.</p></div></article>
+      <article class="project-card reveal reveal-delay-3"><img class="project-card-img" src="asteroiddefl.png" alt="Asteroid Deflection"/><div class="project-card-body"><h4>Ion Beam Deflection for Asteroids</h4><p>A framework assessing the feasibility of deflecting hazardous asteroids via ion beams for planetary defense.</p></div></article>
+    </div></div>
+    <div class="projects-subsection"><div class="subsection-title reveal">PostDoc Work <span class="badge-count">2 projects</span></div>
+    <div class="project-grid">
+      <article class="project-card reveal reveal-delay-1"><img class="project-card-img" src="https://static.wixstatic.com/media/17cfa5_d193bae78d71458a8de4e62503db951c~mv2.png" alt="CORTEX"/><div class="project-card-body"><h4>CORTEX: Convex Optimization for Rendezvous</h4><p>A sunlight-aware, robust convex-tracking scheme for final approach in RPO missions.</p></div></article>
+      <article class="project-card reveal reveal-delay-2"><img class="project-card-img" src="https://static.wixstatic.com/media/17cfa5_7096da0c1bd647e59cfadf856b965a12~mv2.jpg" alt="GRASP"/><div class="project-card-body"><h4>GRASP: Guidance for Autonomous Servicing</h4><p>End-to-end transfer and guidance framework for spacecraft servicing missions.</p></div></article>
+    </div></div>
+  </div>
+</section>
 
-      <li class="pub-item">
-        <a class="pub-title" href="https://arc.aiaa.org/doi/10.2514/1.G008089" target="_blank" rel="noopener">
-          Convex-Optimization-Based Model Predictive Control for Space Debris Removal Mission Guidance
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, R. Armellin, H. Holt, C. Bombardelli — <em>Journal of Guidance, Control, and Dynamics</em>, 2024
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://arc.aiaa.org/doi/10.2514/1.G007091" target="_blank" rel="noopener">
-          Exploiting Scaling Constants to Facilitate the Convergence of Indirect Trajectory Optimization Methods
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, R. Armellin, L. Pirovano — <em>Journal of Guidance, Control, and Dynamics</em> (Engineering Note), 2023
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://link.springer.com/article/10.1007/s42064-023-0159-3" target="_blank" rel="noopener">
-          Design and guidance of a multi-active debris removal mission
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, R. Armellin, H. Holt, L. Pirovano, A. A. Lidtke — <em>Astrodynamics</em>, 7(6):1–17, 2023 — DOI: 10.1007/s42064-023-0159-3
-        </div>
-      </li>
+<!-- PUBLICATIONS -->
+<section id="publications" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-label">Research Output</div><h2 class="section-title">Publications</h2><p class="section-desc">Selected journal and conference papers.</p></div>
+    <h3 class="pubs-group-title reveal">Preprints</h3>
+    <ol class="pub-list">
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://arxiv.org/abs/2602.07335" target="_blank" rel="noopener">Meta-Reinforcement Learning for Robust and Non-greedy Control Barrier Functions in Spacecraft Proximity Operations</a><span class="pub-new">New</span><div class="pub-meta">M. C. Wijayatunga, R. Linares, R. Armellin &mdash; <em>arXiv:2602.07335</em>, Feb 2026</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://arxiv.org/abs/2602.00366" target="_blank" rel="noopener">Learning Safety-Guaranteed, Non-Greedy Control Barrier Functions Using Reinforcement Learning</a><span class="pub-new">New</span><div class="pub-meta">M. Wijayatunga, N. Wallace, S. Sukkarieh, R. Armellin &mdash; <em>arXiv:2602.00366</em>, Jan 2026</div></li>
     </ol>
-
-    <!-- Conferences -->
-    <h3 class="pubs-heading">Conference Papers</h3>
-    <ol class="pubs-list">
-      <li class="pub-item">
-        <a class="pub-title" href="https://www.researchgate.net/publication/396085814_GRASP_An_Integrated_Framework_for_Mission_Design_and_Guidance_for_Autonomous_In-Orbit_Servicing_Missions" target="_blank" rel="noopener">
-          GRASP: An Integrated Framework for Mission Design and Guidance for Autonomous In-Orbit Servicing Missions
-        </a>
-        <div class="pub-meta">
-          N. Wallace, M. C. Wijayatunga, J. Guinane, …, S. Sukkarieh — Conference paper, Oct 2025
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://www.researchgate.net/publication/396445091_System_Design_and_Hardware_In_The_Loop_Testbed_Development_for_an_Australian_ISAM_Demonstrator_Mission" target="_blank" rel="noopener">
-          System Design and Hardware-In-The-Loop Testbed Development for an Australian ISAM Demonstrator Mission
-        </a>
-        <div class="pub-meta">
-          J. Guinane, S. Alshammari, T. Bailey, …, X. Wu, M. C. Wijayatunga — Conference paper, Oct 2025
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://www.researchgate.net/publication/395946792_CORTEX_Real-Time_Trajectory_Optimization_and_Guidance_for_the_Final_Approach_Phase_of_In-Orbit_Servicing_Missions" target="_blank" rel="noopener">
-          CORTEX: Real-Time Trajectory Optimization and Guidance for the Final Approach Phase of In-Orbit Servicing Missions
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, N. Wallace, J. Guinane, …, S. Sukkarieh — Conference paper, Sep 2025
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://www.researchgate.net/profile/Minduli-Wijayatunga/publication/388934893_Assessing_the_Feasibility_of_Ion_Beam-Based_Asteroid_Deflection_for_Planetary_Defense/links/67d0bbf5cc055043ce709bf6/Assessing-the-Feasibility-of-Ion-Beam-Based-Asteroid-Deflection-for-Planetary-Defense.pdf" target="_blank" rel="noopener">
-          Assessing the Feasibility of Ion Beam-Based Asteroid Deflection for Planetary Defense
-        </a>
-        <div class="pub-meta">
-          M. C. Wijayatunga, C. Buonagura, S. Bandyopadhyay, …, J. Brophy — Conference paper (full text), Jan 2025
-        </div>
-      </li>
-
-      <li class="pub-item">
-        <a class="pub-title" href="https://www.researchgate.net/publication/367453258_State-dependent_trust_region_for_successive_convex_optimization_of_spacecraft_trajectories" target="_blank" rel="noopener">
-          State-dependent trust region for successive convex optimization of spacecraft trajectories
-        </a>
-        <div class="pub-meta">
-          N. Bernardini, M. C. Wijayatunga, N. Baresi, R. Armellin — Conference paper, Jan 2023
-        </div>
-      </li>
+    <h3 class="pubs-group-title reveal">Journal Articles</h3>
+    <ol class="pub-list">
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://linkinghub.elsevier.com/retrieve/pii/S1270963825000689" target="_blank" rel="noopener">Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations</a><div class="pub-meta">M. C. Wijayatunga, R. Armellin, H. Holt &mdash; <em>Aerospace Science and Technology</em>, 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://link.springer.com/article/10.1007/s42064-024-0219-3" target="_blank" rel="noopener">GTOC12: Results from TheAntipodes</a><div class="pub-meta">R. Armellin, A. Bellome, X. Fu, H. Holt, C. Parigini, M. Wijayatunga, J. Yarndley &mdash; <em>Astrodynamics</em>, 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://arc.aiaa.org/doi/10.2514/1.G008089" target="_blank" rel="noopener">Convex-Optimization-Based Model Predictive Control for Space Debris Removal Mission Guidance</a><div class="pub-meta">M. C. Wijayatunga, R. Armellin, H. Holt, C. Bombardelli &mdash; <em>Journal of Guidance, Control, and Dynamics</em>, 2024</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://arc.aiaa.org/doi/10.2514/1.G007091" target="_blank" rel="noopener">Exploiting Scaling Constants to Facilitate the Convergence of Indirect Trajectory Optimization Methods</a><div class="pub-meta">M. C. Wijayatunga, R. Armellin, L. Pirovano &mdash; <em>JGCD</em> (Engineering Note), 2023</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://link.springer.com/article/10.1007/s42064-023-0159-3" target="_blank" rel="noopener">Design and guidance of a multi-active debris removal mission</a><div class="pub-meta">M. C. Wijayatunga, R. Armellin, H. Holt, L. Pirovano, A. A. Lidtke &mdash; <em>Astrodynamics</em>, 7(6), 2023</div></li>
+          <li class="pub-item reveal">
+          <a class="pub-title-link" href="https://doi.org/10.1016/j.actaastro.2022.08.034" target="_blank" rel="noopener">
+            Team theAntipodes: Solution Methodology for GTOC11
+          </a>
+          <div class="pub-meta">R. Armellin, L. Beauregard, A. Bellome, A. Bellome, M. C. Wijayatunga, et al. — <em>Acta Astronautica</em>, 2022</div>
+        </li>
+          <li class="pub-item reveal">
+          <a class="pub-title-link" href="https://doi.org/10.1080/03036758.2024.2377316" target="_blank" rel="noopener">
+            Sustainability within Aotearoa New Zealand’s aerospace sector: current state and implications for the future
+          </a>
+          <div class="pub-meta"> S. Bickerton, C. Varughese, C. Mankelow, S. Katavich-Barton, T. Dowling, M. Wijayatunga, C Qualtrough, B Kirollos, L Henry, N Rattenbury, A Morris, P Dhopade<em>Journal of the Royal Society of New Zealand</em>, 2025</div>
+        </li>
+    </ol>
+    <h3 class="pubs-group-title reveal">Conference Papers</h3>
+    <ol class="pub-list">
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://www.researchgate.net/publication/396085814" target="_blank" rel="noopener">GRASP: An Integrated Framework for Mission Design and Guidance for Autonomous In-Orbit Servicing Missions</a><div class="pub-meta">N. Wallace, M. C. Wijayatunga, J. Guinane, &hellip;, S. Sukkarieh &mdash; Oct 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://www.researchgate.net/publication/396445091" target="_blank" rel="noopener">System Design and Hardware-In-The-Loop Testbed Development for an Australian ISAM Demonstrator Mission</a><div class="pub-meta">J. Guinane, S. Alshammari, T. Bailey, &hellip;, M. C. Wijayatunga &mdash; Oct 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://www.researchgate.net/publication/395946792" target="_blank" rel="noopener">CORTEX: Real-Time Trajectory Optimization and Guidance for the Final Approach Phase of In-Orbit Servicing Missions</a><div class="pub-meta">M. C. Wijayatunga, N. Wallace, J. Guinane, &hellip;, S. Sukkarieh &mdash; Sep 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://www.researchgate.net/profile/Minduli-Wijayatunga/publication/388934893" target="_blank" rel="noopener">Assessing the Feasibility of Ion Beam-Based Asteroid Deflection for Planetary Defense</a><div class="pub-meta">M. C. Wijayatunga, C. Buonagura, S. Bandyopadhyay, &hellip;, J. Brophy &mdash; Jan 2025</div></li>
+      <li class="pub-item reveal"><a class="pub-title-link" href="https://www.researchgate.net/publication/367453258" target="_blank" rel="noopener">State-dependent trust region for successive convex optimization of spacecraft trajectories</a><div class="pub-meta">N. Bernardini, M. C. Wijayatunga, N. Baresi, R. Armellin &mdash; Jan 2023</div></li>
     </ol>
   </div>
 </section>
 
+<!-- OPEN POSITIONS -->
+<section id="openpos" class="section positions-section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-label">Join Us</div><h2 class="section-title">Open Positions</h2><p class="section-desc">I am currently looking for two PhD students to start in 2026. Please contact me if interested.</p></div>
+    <div class="position-cards">
+      <div class="position-card reveal reveal-delay-1"><h3>PhD: Rendezvous &amp; Proximity Operations and Hardware Testing</h3><p>Research focused on RPO algorithms and hardware testing for in-orbit servicing and debris removal missions.</p><div class="requirements"><span>Requirements</span><p>Astrodynamics background, previous publications, strong grades, some hardware experience.</p></div></div>
+      <div class="position-card reveal reveal-delay-2"><h3>PhD: Space Debris Removal</h3><p>Developing autonomous guidance and mission design tools for active debris removal campaigns.</p><div class="requirements"><span>Requirements</span><p>Astrodynamics background, previous publications, strong grades, interest in debris removal.</p></div></div>
+    </div>
+  </div>
+</section>
 
-  <section id="openpos" class="section reveal">
-    <div class="container">
-      <div class="section-head">
-        <h2>Open Positions</h2>
-      
-        <p>I am currently looking for two PhD students to start in 2026 for the first two topics listed. Please contact me if interested </p>
-        <ul>
-          <li>Rendezvous and Proximity Operations and Hardware Testing (Requirement: Astrodynamics background, previous publications, strong grades, some hardware experience) </li>
-          <li>Space Debris Removal (Requirement: Astrodynamics background, previous publications, strong grades, interest in debris removal) </li>
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="section-header reveal"><div class="section-label">Get in Touch</div><h2 class="section-title">Contact</h2></div>
+    <div class="contact-grid reveal">
+      <form class="contact-form" action="mailto:minduli@illinois.edu" method="post" enctype="text/plain">
+        <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@uni.edu" required/></div>
+        <div class="form-group"><label>Message</label><textarea name="message" rows="4" placeholder="Hi SSA Lab team&hellip;" required></textarea></div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+      <div class="contact-info">
+        <div class="contact-email"><a href="mailto:minduli@illinois.edu">minduli@illinois.edu</a></div>
+        <ul class="social-links" aria-label="Social links">
+          <li><a class="social-link" href="https://www.linkedin.com/in/minduliwijayatunga" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.84v1.98h.05c.53-.95 1.83-1.98 3.77-1.98 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.44c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V23h-4V8.5z"/></svg></a></li>
+          <li><a class="social-link" href="https://github.com/MinduliW" target="_blank" rel="noopener" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.83 1.25 1.83 1.25 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.31 1.23a11.5 11.5 0 0 1 6.02 0c2.3-1.55 3.31-1.23 3.31-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.9 1.24 3.22 0 4.61-2.8 5.63-5.47 5.93.43.37.81 1.09.81 2.2v3.26c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"/></svg></a></li>
+          <li><a class="social-link" href="https://scholar.google.com/citations?user=sFVzZk4AAAAJ&hl=en&oi=ao" target="_blank" rel="noopener" title="Google Scholar"><svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L5.15 9 12 5.27 18.85 9 12 11.73zm-6 3.4V18c0 2.76 3.58 4 6 4s6-1.24 6-4v-2.87l-6 3.27-6-3.27z"/></svg></a></li>
+          <li><a class="social-link" href="https://www.forbes.com/profile/minduli-wijayatunga/" target="_blank" rel="noopener" title="Forbes"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm2 2v14h14V5H7zm3 3h2v8H8V8zm4 0h4c1.1 0 2 .9 2 2v1c0 .74-.4 1.38-1 1.72V13c.6.34 1 .98 1 1.72V16c0 1.1-.9 2-2 2h-4V8zm2 2v2h2v-2h-2zm0 4v2h2v-2h-2z"/></svg></a></li>
         </ul>
       </div>
     </div>
-  </section>
-
-  <section id="contact" class="section reveal">
-    <div class="container">
-      <div class="section-head">
-        <h2>Get in touch</h2>
-      </div>
-      <div class="contact-wrap">
-        <form class="contact-form" action="mailto:minduli@illinois.edu" method="post" enctype="text/plain">
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" placeholder="you@uni.edu" required />
-          </label>
-          <label>
-            <span>Message</span>
-            <textarea name="message" rows="4" placeholder="Hi SSA Lab team…" required></textarea>
-          </label>
-          <button type="submit" class="btn">Submit</button>
-        </form>
-   <div class="contact-aside">
-  <div class="info">
-    <h4>Contact</h4>
-    <p><a href="mailto:minduli@illinois.edu">minduli@illinois.edu</a></p>
-
-    <ul class="social-icons" aria-label="Social links">
-      <!-- LinkedIn -->
-      <li>
-        <a class="icon-btn" href="https://www.linkedin.com/in/minduliwijayatunga"
-           target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.84v1.98h.05c.53-.95 1.83-1.98 3.77-1.98 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.44c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V23h-4V8.5z"/>
-          </svg>
-        </a>
-      </li>
-
-      <!-- GitHub -->
-      <li>
-        <a class="icon-btn" href="https://github.com/MinduliW"
-           target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.83 1.25 1.83 1.25 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.31 1.23a11.5 11.5 0 0 1 6.02 0c2.3-1.55 3.31-1.23 3.31-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.9 1.24 3.22 0 4.61-2.8 5.63-5.47 5.93.43.37.81 1.09.81 2.2v3.26c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"/>
-          </svg>
-        </a>
-      </li>
-
-      <!-- Google Scholar (graduation cap icon) -->
-      <li>
-        <a class="icon-btn" href="https://scholar.google.com/citations?user=sFVzZk4AAAAJ&hl=en&oi=ao"
-           target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L5.15 9 12 5.27 18.85 9 12 11.73zm-6 3.4V18c0 2.76 3.58 4 6 4s6-1.24 6-4v-2.87l-6 3.27-6-3.27z"/>
-          </svg>
-        </a>
-      </li>
-    </ul>
   </div>
-</div>
-
-
-      </div>
-    </div>
-  </section>
+</section>
 </main>
 
+<footer class="site-footer"><div class="container footer-inner">
+  <nav class="footer-nav"><a href="#home">Home</a><a href="#about">About</a><a href="#news">News</a><a href="#researchers">Researchers</a><a href="#projects">Projects</a><a href="#publications">Publications</a><a href="#openpos">Positions</a><a href="#contact">Contact</a></nav>
+  <div class="footer-copy">&copy; Minduli W. 2025</div>
+</div></footer>
 
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  // Cursor glow
+  const glow=document.getElementById('cursorGlow');
+  if(glow&&window.matchMedia('(pointer:fine)').matches){let mx=0,my=0,gx=0,gy=0;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});(function l(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(l)})()}else if(glow)glow.style.display='none';
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="foot-nav">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#researchers">Researchers</a>
-      <a href="#projects">Research Projects</a>
-      <a href="#publications">Publications</a>
-      <a href="#openpos">Open Positions</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div class="small">© Minduli W. 2025</div>
-  </div>
-</footer>
+  // Header scroll
+  const hdr=document.getElementById('siteHeader');
+  window.addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>50),{passive:true});
 
-<script src="script.js"></script>
-</body>
-</html>
+  // Mobile nav
+  const nav=document.getElementById('nav'),tog=document.getElementById('navToggle');
+  tog&&tog.addEventListener('click',()=>nav.classList.toggle('open'));
+  nav&&nav.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+  // Rotating word
+  const wEl=document.getElementById('rotatingWord');
+  if(wEl){const ws=['good','servicing','sustainability','safety','us'];let i=0;setInterval(()=>{wEl.classList.add('is-changing');setTimeout(()=>{i=(i+1)%ws.length;wEl.textContent=ws[i];wEl.classList.remove('is-changing')},300)},2200)}
+
+  // Scroll reveal
+  const rvEls=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');obs.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});rvEls.forEach(el=>obs.observe(el))}else rvEls.forEach(el=>el.classList.add('is-visible'));
+
+  // Scrollspy
+  const secs=document.querySelectorAll('section[id]'),nls=document.querySelectorAll('.nav a[href^="#"]');
+  if('IntersectionObserver' in window){const no=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;nls.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id))}})},{rootMargin:'-50% 0px -50% 0px'});secs.forEach(s=>no.observe(s))}
+
+  // Animated stat counters
+  document.querySelectorAll('.hero-stat-value[data-target]').forEach(el=>{
+    if('IntersectionObserver' in window){
+      new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){animC(e.target);o.unobserve(e.target)}})},{threshold:.5}).observe(el);
+    }
+  });
+  function animC(el){const t=+el.dataset.target,s=el.dataset.suffix||'',d=1200;let st=null;function step(ts){if(!st)st=ts;const p=Math.min((ts-st)/d,1);el.textContent=Math.round((1-Math.pow(1-p,3))*t)+s;if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
+
+  // Parallax blobs
+  const blobs=document.querySelectorAll('.hero-blob');
+  window.addEventListener('scroll',()=>{const y=scrollY;blobs.forEach((b,i)=>{b.style.transform='translateY('+y*(.04+i*.015)+'px)'})},{passive:true});
+
+  // Debris videos
+  document.querySelectorAll('.debris-video').forEach(v=>{const s=parseFloat(v.dataset.startAt||18),e=parseFloat(v.dataset.endAt||50),r=parseFloat(v.dataset.playbackRate||1);v.addEventListener('loadedmetadata',()=>{if(s>=0&&s<v.duration)v.currentTime=s;if(r>0)v.playbackRate=r;if(s<v.duration&&e<=v.duration&&e>s)v.addEventListener('timeupdate',()=>{if(v.currentTime>=e)v.currentTime=s})})});
+});
+</script>
+</body></html>
