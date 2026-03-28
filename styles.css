@@ -42,6 +42,39 @@
   gap:.6rem;
 }
 
+.icon-btn{
+  display:inline-grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:.6rem;
+  color:var(--ink);
+  text-decoration:none;
+  transition:border-color .2s, box-shadow .2s, color .2s, transform .1s;
+}
+
+.icon-btn svg{
+  width:22px;
+  height:22px;
+  fill:currentColor;
+}
+
+.icon-btn:hover{
+  border-color:var(--brand);
+  color:var(--brand);
+  box-shadow:0 0 0 3px var(--ring);
+  transform:translateY(-1px);
+}
+
+.social-icons{
+  list-style:none;
+  padding:0;
+  margin:.5rem 0 0;
+  display:flex;
+  gap:.6rem;
+}
+
 .btn{
   display:inline-flex;
   align-items:center;
