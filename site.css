@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Space Autonomy Lab — site styles
+   Layered on top of the Illinois Web Toolkit v3 (cdn.toolkit.illinois.edu).
+   The toolkit supplies the campus header/footer, fonts, buttons, cards and
+   brand colour variables; this file only handles lab-specific layout.
+   Fallback hex values are the official brand colours, used if the campus
+   stylesheet has not loaded yet.
+   ========================================================================== */
+
+:root {
+  --sal-blue: var(--il-blue, #13294b);
+  --sal-orange: var(--il-orange, #ff5f05);
+  --sal-altgeld: var(--il-altgeld, #c84113);
+  --sal-industrial: var(--il-industrial, #1d58a7);
+  --sal-gray: var(--il-storm-95, #f4f4f4);
+  --sal-rule: var(--il-storm-80, #c8c6c7);
+  --sal-muted: var(--il-storm-darker-1, #5e6669);
+  --sal-side: var(--ilw-margin--side, max(1.875rem, calc(50vw - 35.625rem)));
+}
+
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- Bands & wrappers ---------- */
+.sal-band { padding: 3.5rem var(--sal-side); scroll-margin-top: 1rem; }
+.sal-band--gray { background: var(--sal-gray); }
+.sal-band--blue { background: var(--sal-blue); color: #fff; }
+.sal-band > :first-child { margin-top: 0 !important; }
+.sal-band > p:last-child > .ilw-button { margin-top: 1rem; }
+
+.sal-eyebrow {
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sal-altgeld) !important;
+}
+.sal-band h2.sal-heading { margin-top: 0.35rem !important; }
+.sal-band h2.sal-heading::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-top: 0.9rem;
+  background: var(--sal-orange);
+}
+.sal-lede { max-width: 46rem; }
+
+/* ---------- Hero ---------- */
+.sal-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 3rem;
+  align-items: center;
+  padding: 4rem var(--sal-side);
+  background: var(--sal-blue);
+  background: linear-gradient(135deg, var(--sal-industrial) 0%, var(--sal-blue) 62%);
+  color: #fff;
+  border-bottom: 6px solid var(--sal-orange);
+}
+.sal-hero h1 {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(2.5rem, 5vw, 3.75rem) !important;
+  line-height: 1.08 !important;
+}
+.sal-hero .sal-tagline {
+  margin: 1rem 0 0 !important;
+  font-size: 1.5rem !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+.sal-hero .sal-tagline span {
+  display: inline-block;
+  min-width: 8ch;
+  color: var(--sal-orange);
+  font-weight: 700;
+  transition: opacity 0.3s ease;
+}
+.sal-hero .sal-tagline span.is-changing { opacity: 0; }
+.sal-hero .sal-hero-lead { max-width: 34rem; font-size: 1.25rem !important; line-height: 1.6 !important; }
+.sal-hero ul.ilw-buttons { justify-content: flex-start; margin-top: 2rem; padding: 0; }
+.sal-hero-art img { display: block; width: 100%; max-width: 26rem; height: auto; margin: 0 auto; }
+
+/* ---------- Page title band (sub-pages) ---------- */
+.sal-title {
+  padding: 2.75rem var(--sal-side);
+  background: var(--sal-blue);
+  background: linear-gradient(135deg, var(--sal-industrial) 0%, var(--sal-blue) 62%);
+  color: #fff;
+  border-bottom: 6px solid var(--sal-orange);
+}
+.sal-title .sal-eyebrow { color: var(--sal-orange) !important; }
+.sal-title h1 { margin: 0.4rem 0 0 !important; color: #fff !important; }
+
+/* ---------- Debris statistics band ---------- */
+.sal-debris { text-align: center; }
+.sal-debris p { margin-left: auto; margin-right: auto; max-width: 46rem; }
+.sal-debris .sal-debris-intro { margin-top: 0 !important; font-size: 1.25rem !important; }
+.sal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+.sal-debris cite { display: block; margin-top: 0.4rem; font-size: 0.95rem; opacity: 0.85; }
+.sal-videos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 28rem));
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.sal-videos video { display: block; width: 100%; height: auto; }
+
+/* ---------- About ---------- */
+.sal-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+.sal-split img { display: block; width: 100%; height: auto; }
+.sal-split > div > :first-child { margin-top: 0 !important; }
+.sal-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+/* ---------- Cards (news, projects, pillars) ---------- */
+.sal-cards { margin-top: 2.5rem; }
+ilw-card h2, ilw-card h3, ilw-card h4 { font-size: 1.375rem !important; line-height: 1.3 !important; margin-bottom: 0 !important; }
+ilw-card p { font-size: 1.0625rem !important; line-height: 1.55 !important; margin-top: 0.75rem !important; }
+ilw-card img[slot="image"] { aspect-ratio: 16 / 9; max-height: 15rem; object-fit: cover; width: 100%; }
+ilw-card .sal-date {
+  margin: 0 0 0.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sal-muted);
+}
+.sal-tag {
+  display: inline-block;
+  margin: 0 !important;
+  padding-left: 0.6rem;
+  border-left: 4px solid var(--sal-orange);
+  font-size: 0.875rem !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sal-blue);
+}
+
+/* ---------- People ---------- */
+.sal-group { margin-top: 3rem !important; font-size: 1.813rem !important; line-height: 2.188rem !important; padding-bottom: 0.6rem; border-bottom: 2px solid var(--sal-blue); }
+.sal-person {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--sal-rule);
+}
+.sal-person > img { display: block; width: 10rem; height: 10rem; object-fit: cover; }
+.sal-avatar {
+  display: grid;
+  place-items: center;
+  width: 10rem;
+  height: 10rem;
+  background: var(--sal-blue);
+  color: #fff;
+  font-family: var(--il-font-heading, sans-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.sal-person h3, .sal-person h4 { margin-top: 0 !important; font-size: 1.563rem !important; line-height: 1.813rem !important; }
+.sal-person .sal-role { margin-top: 0.25rem !important; font-weight: 700 !important; color: var(--sal-altgeld); }
+.sal-person ul { padding-left: 1.25rem; }
+.sal-person li { font-size: 1.0625rem !important; }
+.sal-person .sal-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+
+/* ---------- Projects ---------- */
+.sal-subhead { font-size: 1.813rem !important; line-height: 2.188rem !important; display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-top: 3rem !important; }
+.sal-subhead span { font-size: 1rem; font-weight: 600; color: var(--sal-muted); }
+
+/* ---------- Publications ---------- */
+.sal-band > h2:not(.sal-heading) { font-size: 1.813rem !important; line-height: 2.188rem !important; }
+.sal-pubs { list-style: none; padding: 0; margin-top: 0.5rem !important; }
+.sal-pubs li { padding: 1.1rem 0; border-bottom: 1px solid var(--sal-rule); }
+.sal-pubs li > a { font-weight: 700; }
+.sal-pubs .sal-meta { margin-top: 0.25rem; font-size: 1rem; line-height: 1.5; color: var(--sal-muted); }
+.sal-new {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  background: var(--sal-blue);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.sal-new--accepted { background: var(--sal-altgeld); }
+
+/* ---------- Teaching ---------- */
+.sal-figure { margin: 3rem 0 0; }
+.sal-figure img { display: block; width: 100%; height: auto; }
+.sal-figure figcaption { margin-top: 0.6rem; font-family: var(--il-font-sans, sans-serif); font-size: 1rem; color: var(--sal-muted); }
+ilw-card ul { margin-top: 0.75rem !important; padding-left: 1.2rem; }
+ilw-card li { font-size: 1.0625rem !important; line-height: 1.5 !important; margin-bottom: 0.35rem; }
+
+/* ---------- Contact ---------- */
+.sal-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2.5rem;
+}
+.sal-form { display: grid; gap: 1.1rem; max-width: 36rem; }
+.sal-form label { display: grid; gap: 0.4rem; font-weight: 700; color: var(--sal-blue); }
+.sal-form input,
+.sal-form textarea {
+  padding: 0.7rem 0.8rem;
+  border: 2px solid var(--sal-blue);
+  border-radius: 0;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+}
+.sal-form input:focus,
+.sal-form textarea:focus { outline: 3px solid var(--sal-orange); outline-offset: 2px; }
+.sal-form textarea { min-height: 8rem; resize: vertical; }
+.sal-form button { justify-self: start; cursor: pointer; }
+.sal-contact-aside { padding: 2rem; border-top: 6px solid var(--sal-orange); }
+.sal-contact-aside > :first-child { margin-top: 0 !important; }
+.sal-contact-aside ul { list-style: none; padding: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .sal-hero, .sal-split, .sal-contact { grid-template-columns: 1fr; }
+  .sal-hero { padding-top: 3rem; padding-bottom: 3rem; }
+  .sal-hero-art img { max-width: 18rem; }
+  .sal-stats, .sal-videos, .sal-pillars { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .sal-band { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .sal-person { grid-template-columns: 1fr; gap: 1.25rem; }
+}

@@ -1,0 +1,124 @@
+[
+  {
+    "title": "Meta-Reinforcement Learning for Robust and Non-greedy Control Barrier Functions in Spacecraft Proximity Operations",
+    "url": "https://arxiv.org/abs/2602.07335",
+    "category": "preprint",
+    "year": 2026,
+    "meta_html": "M. C. Wijayatunga, R. Linares, R. Armellin — <em>arXiv:2602.07335</em>, Feb 2026",
+    "source": "curated",
+    "badge": "Accepted"
+  },
+  {
+    "title": "Learning Safety-Guaranteed, Non-Greedy Control Barrier Functions Using Reinforcement Learning",
+    "url": "https://arxiv.org/abs/2602.00366",
+    "category": "preprint",
+    "year": 2026,
+    "meta_html": "M. Wijayatunga, N. Wallace, S. Sukkarieh, R. Armellin — <em>arXiv:2602.00366</em>, Jan 2026",
+    "source": "curated",
+    "badge": "New"
+  },
+  {
+    "title": "CORTEX: An autonomous, end-to-end, convex-based framework for close-range rendezvous trajectory design and guidance with hardware testbed validation",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0094576526005692?via%3Dihub",
+    "category": "journal",
+    "year": 2026,
+    "meta_html": "M. C. Wijayatunga, J. Guinane, N. Wallace, X. Wu, S. Sukkarieh — <em>Acta Astronautica </em>, 2026",
+    "source": "curated"
+  },
+  {
+    "title": "Robust trajectory design and guidance for far-range rendezvous using reinforcement learning with safety and observability considerations",
+    "url": "https://linkinghub.elsevier.com/retrieve/pii/S1270963825000689",
+    "category": "journal",
+    "year": 2025,
+    "meta_html": "M. C. Wijayatunga, R. Armellin, H. Holt — <em>Aerospace Science and Technology</em>, 2025",
+    "source": "curated"
+  },
+  {
+    "title": "GTOC12: Results from TheAntipodes",
+    "url": "https://link.springer.com/article/10.1007/s42064-024-0219-3",
+    "category": "journal",
+    "year": 2025,
+    "meta_html": "R. Armellin, A. Bellome, X. Fu, H. Holt, C. Parigini, M. Wijayatunga, J. Yarndley — <em>Astrodynamics</em>, 2025",
+    "source": "curated"
+  },
+  {
+    "title": "Convex-Optimization-Based Model Predictive Control for Space Debris Removal Mission Guidance",
+    "url": "https://arc.aiaa.org/doi/10.2514/1.G008089",
+    "category": "journal",
+    "year": 2024,
+    "meta_html": "M. C. Wijayatunga, R. Armellin, H. Holt, C. Bombardelli — <em>Journal of Guidance, Control, and Dynamics</em>, 2024",
+    "source": "curated"
+  },
+  {
+    "title": "Exploiting Scaling Constants to Facilitate the Convergence of Indirect Trajectory Optimization Methods",
+    "url": "https://arc.aiaa.org/doi/10.2514/1.G007091",
+    "category": "journal",
+    "year": 2023,
+    "meta_html": "M. C. Wijayatunga, R. Armellin, L. Pirovano — <em>JGCD</em> (Engineering Note), 2023",
+    "source": "curated"
+  },
+  {
+    "title": "Design and guidance of a multi-active debris removal mission",
+    "url": "https://link.springer.com/article/10.1007/s42064-023-0159-3",
+    "category": "journal",
+    "year": 2023,
+    "meta_html": "M. C. Wijayatunga, R. Armellin, H. Holt, L. Pirovano, A. A. Lidtke — <em>Astrodynamics</em>, 7(6), 2023",
+    "source": "curated"
+  },
+  {
+    "title": "Team theAntipodes: Solution Methodology for GTOC11",
+    "url": "https://doi.org/10.1016/j.actaastro.2022.08.034",
+    "category": "journal",
+    "year": 2022,
+    "meta_html": "R. Armellin, L. Beauregard, A. Bellome, A. Bellome, M. C. Wijayatunga, et al. — <em>Acta Astronautica</em>, 2022",
+    "source": "curated"
+  },
+  {
+    "title": "Sustainability within Aotearoa New Zealand’s aerospace sector: current state and implications for the future",
+    "url": "https://doi.org/10.1080/03036758.2024.2377316",
+    "category": "journal",
+    "year": 2025,
+    "meta_html": "S. Bickerton, C. Varughese, C. Mankelow, S. Katavich-Barton, T. Dowling, M. Wijayatunga, C Qualtrough, B Kirollos, L Henry, N Rattenbury, A Morris, P Dhopade<em>Journal of the Royal Society of New Zealand</em>, 2025",
+    "source": "curated"
+  },
+  {
+    "title": "GRASP: An Integrated Framework for Mission Design and Guidance for Autonomous In-Orbit Servicing Missions",
+    "url": "https://www.researchgate.net/publication/396085814",
+    "category": "conference",
+    "year": 2025,
+    "meta_html": "N. Wallace, M. C. Wijayatunga, J. Guinane, …, S. Sukkarieh — Oct 2025",
+    "source": "curated"
+  },
+  {
+    "title": "System Design and Hardware-In-The-Loop Testbed Development for an Australian ISAM Demonstrator Mission",
+    "url": "https://www.researchgate.net/publication/396445091",
+    "category": "conference",
+    "year": 2025,
+    "meta_html": "J. Guinane, S. Alshammari, T. Bailey, …, M. C. Wijayatunga — Oct 2025",
+    "source": "curated"
+  },
+  {
+    "title": "CORTEX: Real-Time Trajectory Optimization and Guidance for the Final Approach Phase of In-Orbit Servicing Missions",
+    "url": "https://www.researchgate.net/publication/395946792",
+    "category": "conference",
+    "year": 2025,
+    "meta_html": "M. C. Wijayatunga, N. Wallace, J. Guinane, …, S. Sukkarieh — Sep 2025",
+    "source": "curated"
+  },
+  {
+    "title": "Assessing the Feasibility of Ion Beam-Based Asteroid Deflection for Planetary Defense",
+    "url": "https://www.researchgate.net/profile/Minduli-Wijayatunga/publication/388934893",
+    "category": "conference",
+    "year": 2025,
+    "meta_html": "M. C. Wijayatunga, C. Buonagura, S. Bandyopadhyay, …, J. Brophy — Jan 2025",
+    "source": "curated"
+  },
+  {
+    "title": "State-dependent trust region for successive convex optimization of spacecraft trajectories",
+    "url": "https://www.researchgate.net/publication/367453258",
+    "category": "conference",
+    "year": 2023,
+    "meta_html": "N. Bernardini, M. C. Wijayatunga, N. Baresi, R. Armellin — Jan 2023",
+    "source": "curated"
+  }
+]
